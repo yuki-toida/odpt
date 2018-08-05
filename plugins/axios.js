@@ -1,8 +1,13 @@
-export default function({ $axios }) {
-  $axios.onRequest(config => {
-    console.log(config.url)
+export default function(context) {
+  // rewrite baseURL
+  context.$axios.defaults.baseURL = context.env.BASE_URL
+
+  context.$axios.onRequest(config => {
+    // add consumerKey
+    config.url = `${config.url}?acl:consumerKey=${context.env.CONSUMER_KEY}`
   })
-  $axios.onError(error => {
-    console.log(error)
+
+  context.$axios.onError(err => {
+    console.log(err.response)
   })
 }

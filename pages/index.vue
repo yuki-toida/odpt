@@ -1,24 +1,16 @@
 <template>
   <div>
-    <button type="button" class="btn btn-primary" @click="$store.commit('increment')">
-      {{ $store.state.counter }}
-    </button>
-    {{ ip }}
+    <ul class="list-group">
+      <li class="list-group-item">
+        <nuxt-link to="/api/operator">Operator</nuxt-link>
+      </li>
+      <li class="list-group-item">
+        <nuxt-link to="/api/calendar">Calendar</nuxt-link>
+      </li>
+    </ul>
   </div>
 </template>
 
 <script>
-export default {
-  components: {},
-  asyncData({ app, error }) {
-    return app.$axios
-      .$get("http://icanhazip.com")
-      .then(res => {
-        return { ip: res }
-      })
-      .catch(e => {
-        error(e)
-      })
-  }
-}
+export default {}
 </script>

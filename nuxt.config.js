@@ -1,6 +1,6 @@
 module.exports = {
   head: {
-    title: 'odpt',
+    title: 'refodpt',
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
@@ -32,14 +32,9 @@ module.exports = {
   ],
   modules: [
     '@nuxtjs/axios',
-    'bootstrap-vue/nuxt',
+    '@nuxtjs/dotenv',
     ['bootstrap-vue/nuxt', { css: false }],
   ],
-  axios: {
-    debug: true,
-    https: false,
-    baseURL: process.env.BASE_URL || 'http://localhost:8080',
-  },
   plugins: [
     '~/plugins/axios'
   ],

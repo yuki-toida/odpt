@@ -1,6 +1,6 @@
 import Vuex from "vuex"
 
-const store = () =>
+export default () =>
   new Vuex.Store({
     state: {
       counter: 0
@@ -11,5 +11,3 @@ const store = () =>
       }
     }
   })
-
-export default store
