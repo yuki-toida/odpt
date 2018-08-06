@@ -1,0 +1,8 @@
+[server]
+host = "http://localhost"
+port = "8080"
+
+[db]
+host = "127.0.0.1"
+port = "8306"
+name = "refodpt_dev"

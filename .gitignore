@@ -1,15 +1,21 @@
-# dependencies
-node_modules
+# Frontend
+frontend/node_modules
+frontend/yarn-error.log
+frontend/.nuxt
 
-# logs
-npm-debug.log
-yarn-error.log
+# Backend
+backend/*.exe
+backend/*.dll
+backend/*.so
+backend/*.dylib
+backend/*.test
+backend/*.out
+backend/vendor/
+backend/debug
+backend/main
 
-# Nuxt build
-.nuxt
-
-# Nuxt generate
-dist
-
-# env
+# .env
 .env
+
+# .DS_Store for Mac
+.DS_Store
