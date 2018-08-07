@@ -13,6 +13,7 @@ backend/*.out
 backend/vendor/
 backend/debug
 backend/main
+backend/mysql/data/
 
 # .env
 .env

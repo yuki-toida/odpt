@@ -10,6 +10,14 @@
   version = "v0.3.0"
 
 [[projects]]
+  branch = "master"
+  digest = "1:e4d349fbdc0b306ebde61556f0370b4b08e73e2fa4c28a3baabe90408e105468"
+  name = "github.com/bamzi/jobrunner"
+  packages = ["."]
+  pruneopts = "UT"
+  revision = "273175f8b6ebabab8a639a4e6260a5c50fbf016a"
+
+[[projects]]
   digest = "1:2b59aca2665ff804f6606c8829eaee133ddd3aefbc841014660d961b0034f888"
   name = "github.com/gin-contrib/cors"
   packages = ["."]
@@ -54,12 +62,23 @@
   version = "v1.1.0"
 
 [[projects]]
-  digest = "1:eab8e1609dd61c7b32518c835c47dfcd6a28c9f82594f8a7d273c80924c0a6a2"
+  digest = "1:b6f4477f09f11785097a121811f3a90d8d26cab73c1aa71abda859bdf6ad2334"
   name = "github.com/jinzhu/gorm"
-  packages = ["dialects/mysql"]
+  packages = [
+    ".",
+    "dialects/mysql",
+  ]
   pruneopts = "UT"
   revision = "6ed508ec6a4ecb3531899a69cbc746ccf65a4166"
   version = "v1.9.1"
+
+[[projects]]
+  branch = "master"
+  digest = "1:fd97437fbb6b7dce04132cf06775bd258cce305c44add58eb55ca86c6c325160"
+  name = "github.com/jinzhu/inflection"
+  packages = ["."]
+  pruneopts = "UT"
+  revision = "04140366298a54a039076d798123ffa108fff46c"
 
 [[projects]]
   digest = "1:70e697d67ccaec45e16bac3a32380ebcd9e7e071079c60d0171d42cf1cf9748a"
@@ -110,6 +129,14 @@
   version = "v8.18.2"
 
 [[projects]]
+  branch = "v2"
+  digest = "1:e8c48aa61ea272e211858e52979ad4d114c60bfe6900d12431ac697482100b0a"
+  name = "gopkg.in/robfig/cron.v2"
+  packages = ["."]
+  pruneopts = "UT"
+  revision = "be2e0b0deed5a68ffee390b4583a13aff8321535"
+
+[[projects]]
   digest = "1:342378ac4dcb378a5448dd723f0784ae519383532f5e70ade24132c4c8693202"
   name = "gopkg.in/yaml.v2"
   packages = ["."]
@@ -122,8 +149,10 @@
   analyzer-version = 1
   input-imports = [
     "github.com/BurntSushi/toml",
+    "github.com/bamzi/jobrunner",
     "github.com/gin-contrib/cors",
     "github.com/gin-gonic/gin",
+    "github.com/jinzhu/gorm",
     "github.com/jinzhu/gorm/dialects/mysql",
     "github.com/joho/godotenv",
   ]

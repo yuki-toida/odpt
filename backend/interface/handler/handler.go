@@ -5,8 +5,7 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/yuki-toida/refodpt/backend/interface/registry"
-	"github.com/yuki-toida/refodpt/backend/usecase/shared"
-	"github.com/yuki-toida/refodpt/backend/usecase/train"
+	"github.com/yuki-toida/refodpt/backend/usecase/raw"
 )
 
 // Handler type
@@ -27,7 +26,7 @@ func handleError(c *gin.Context, err error) {
 
 // GetCalendar func
 func (h *Handler) GetCalendar(c *gin.Context) {
-	data, err := shared.NewUseCase().GetCalendar()
+	data, err := raw.NewUseCase().GetCalendar()
 	if err != nil {
 		handleError(c, err)
 	} else {
@@ -37,7 +36,7 @@ func (h *Handler) GetCalendar(c *gin.Context) {
 
 // GetOperator func
 func (h *Handler) GetOperator(c *gin.Context) {
-	data, err := shared.NewUseCase().GetOperator()
+	data, err := raw.NewUseCase().GetOperator()
 	if err != nil {
 		handleError(c, err)
 	} else {
@@ -47,7 +46,7 @@ func (h *Handler) GetOperator(c *gin.Context) {
 
 // GetPassengerSurvey func
 func (h *Handler) GetPassengerSurvey(c *gin.Context) {
-	data, err := train.NewUseCase().GetPassengerSurvey()
+	data, err := raw.NewUseCase().GetPassengerSurvey()
 	if err != nil {
 		handleError(c, err)
 	} else {
@@ -57,7 +56,7 @@ func (h *Handler) GetPassengerSurvey(c *gin.Context) {
 
 // GetRailDirection func
 func (h *Handler) GetRailDirection(c *gin.Context) {
-	data, err := train.NewUseCase().GetRailDirection()
+	data, err := raw.NewUseCase().GetRailDirection()
 	if err != nil {
 		handleError(c, err)
 	} else {
@@ -67,7 +66,7 @@ func (h *Handler) GetRailDirection(c *gin.Context) {
 
 // GetRailway func
 func (h *Handler) GetRailway(c *gin.Context) {
-	data, err := train.NewUseCase().GetRailway()
+	data, err := raw.NewUseCase().GetRailway()
 	if err != nil {
 		handleError(c, err)
 	} else {

@@ -1,6 +1,34 @@
-package train
+package raw
 
-import "github.com/yuki-toida/refodpt/backend/domain/model/shared"
+// Lang struct
+type Lang struct {
+	Ja string `json:"ja"`
+	En string `json:"en"`
+}
+
+// Calendar struct
+type Calendar struct {
+	Context           string   `json:"@context"`
+	ID                string   `json:"@id"`
+	Type              string   `json:"@type"`
+	DcDate            string   `json:"dc:date"`
+	DcTitle           string   `json:"dc:title"`
+	OdptCalendarTitle Lang     `json:"odpt:calendarTitle"`
+	OdptDay           []string `json:"odpt:day"`
+	OdptDuration      string   `json:"odpt:duration"`
+	OwlSameAs         string   `json:"owl:sameAs"`
+}
+
+// Operator struct
+type Operator struct {
+	Context           string `json:"@context"`
+	ID                string `json:"@id"`
+	Type              string `json:"@type"`
+	DcDate            string `json:"dc:date"`
+	DcTitle           string `json:"dc:title"`
+	OdptOperatorTitle Lang   `json:"odpt:operatorTitle"`
+	OwlSameAs         string `json:"owl:sameAs"`
+}
 
 // PassengerSurvey struct
 type PassengerSurvey struct {
@@ -23,14 +51,14 @@ type PassengerSurveyObject struct {
 
 // RailDirection struct
 type RailDirection struct {
-	Context                string      `json:"@context"`
-	ID                     string      `json:"@id"`
-	Type                   string      `json:"@type"`
-	DcDate                 string      `json:"dc:date"`
-	DcTitle                string      `json:"dc:title"`
-	OdptOperator           string      `json:"odpt:operator"`
-	OdptRailDirectionTitle shared.Lang `json:"odpt:railDirectionTitle"`
-	OwlSameAs              string      `json:"owl:sameAs"`
+	Context                string `json:"@context"`
+	ID                     string `json:"@id"`
+	Type                   string `json:"@type"`
+	DcDate                 string `json:"dc:date"`
+	DcTitle                string `json:"dc:title"`
+	OdptOperator           string `json:"odpt:operator"`
+	OdptRailDirectionTitle Lang   `json:"odpt:railDirectionTitle"`
+	OwlSameAs              string `json:"owl:sameAs"`
 }
 
 // Railway struct
@@ -44,7 +72,7 @@ type Railway struct {
 	OdptKana         string         `json:"odpt:kana"`
 	OdptLineCode     string         `json:"odpt:lineCode"`
 	OdptOperator     string         `json:"odpt:operator"`
-	OdptRainwayTitle shared.Lang    `json:"odpt:railwayTitle"`
+	OdptRainwayTitle Lang           `json:"odpt:railwayTitle"`
 	OdptStationOrder []StationOrder `json:"odpt:stationOrder"`
 	OwlSameAs        string         `json:"owl:sameAs"`
 	UgRegion         string         `json:"ug:region"`
@@ -52,7 +80,7 @@ type Railway struct {
 
 // StationOrder struct
 type StationOrder struct {
-	OdptIndex        int         `json:"odpt:index"`
-	OdptStation      string      `json:"odpt:station"`
-	OdptStationTitle shared.Lang `json:"odpt:stationTitle"`
+	OdptIndex        int    `json:"odpt:index"`
+	OdptStation      string `json:"odpt:station"`
+	OdptStationTitle Lang   `json:"odpt:stationTitle"`
 }

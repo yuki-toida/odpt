@@ -24,9 +24,6 @@
       <li class="list-group-item">
         <nuxt-link to="/api/train/railway">odpt:Railway</nuxt-link>
       </li>
-      <li class="list-group-item">
-        <nuxt-link to="/api/train/railwayFare">odpt:RailwayFare</nuxt-link>
-      </li>
     </ul>
   </div>
 </template>
