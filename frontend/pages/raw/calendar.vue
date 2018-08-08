@@ -38,7 +38,7 @@
 <script>
 export default {
   async asyncData(context) {
-    const { data } = await context.app.$axios.$get("/shared/calendar")
+    const { data } = await context.app.$axios.$get("/raw/calendar")
     return { data: data }
   }
 }

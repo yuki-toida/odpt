@@ -7,10 +7,8 @@
         <th scope="col">@id</th>
         <th scope="col">@type</th>
         <th scope="col">dc:date</th> -->
-        <th scope="col">odpt:operator</th>
-        <th scope="col">odpt:railway</th>
-        <th scope="col">odpt:station</th>
-        <th scope="col">odpt:passengerSurveyObject</th>
+        <th scope="col">dc:title</th>
+        <th scope="col">odpt:operatorTitle</th>
         <th scope="col">owl:sameAs</th>
       </tr>
     </thead>
@@ -21,10 +19,8 @@
         <td>{{ obj['@id'] }}</td>
         <td>{{ obj['@type'] }}</td>
         <td>{{ obj['dc:date'] }}</td> -->
-        <td>{{ obj['odpt:operator'] }}</td>
-        <td>{{ obj['odpt:railway'] }}</td>
-        <td>{{ obj['odpt:station'] }}</td>
-        <td>{{ obj['odpt:passengerSurveyObject'] }}</td>
+        <td>{{ obj['dc:title'] }}</td>
+        <td>{{ obj['odpt:operatorTitle'] }}</td>
         <td>{{ obj['owl:sameAs'] }}</td>
       </tr>
     </tbody>
@@ -34,7 +30,7 @@
 <script>
 export default {
   async asyncData(context) {
-    const { data } = await context.app.$axios.$get("/train/passengerSurvey")
+    const { data } = await context.app.$axios.$get("/raw/operator")
     return { data: data }
   }
 }

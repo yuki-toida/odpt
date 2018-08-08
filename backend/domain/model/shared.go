@@ -2,6 +2,14 @@ package model
 
 import "time"
 
+// Category struct
+type Category struct {
+	Category string `gorm:"primary_key"`
+	Type     string `gorm:"primary_key"`
+	Name     string
+	Desc     string
+}
+
 // Calendar struct
 type Calendar struct {
 	ID              string `gorm:"primary_key"`

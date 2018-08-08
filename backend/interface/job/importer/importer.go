@@ -1,10 +1,8 @@
 package importer
 
 import (
-	"fmt"
 	"time"
 
-	"github.com/yuki-toida/refodpt/backend/domain/model"
 	"github.com/yuki-toida/refodpt/backend/domain/repository"
 	"github.com/yuki-toida/refodpt/backend/interface/registry"
 	"github.com/yuki-toida/refodpt/backend/usecase/raw"
@@ -28,74 +26,23 @@ func NewImporter(r *registry.Registry) *Importer {
 	}
 }
 
-func parseDate(date string) *time.Time {
-	var result *time.Time
-	if t, err := time.Parse(timeFormat, date); err == nil {
-		result = &t
-	}
-	return result
-}
-
 // Run func
 func (i Importer) Run() {
-	i.calendar()
-	i.operator()
+	// i.category()
+	// i.calendar()
+	// i.operator()
+	// i.passengerSurvey()
+	// i.railDirection()
+	// i.railway()
+	// i.railwayFare()
+	// i.station()
+	i.stationTimetable()
 }
 
-func (i Importer) calendar() {
-	i.r.Delete(model.Calendar{})
-	i.r.Delete(model.CalendarDay{})
-
-	calendars, err := i.uc.GetCalendar()
+func parseDate(date string) *time.Time {
+	t, err := time.Parse(timeFormat, date)
 	if err != nil {
-		panic(err)
+		return nil
 	}
-	fmt.Printf("[Calendars]: %v\n", len(calendars))
-
-	for _, v := range calendars {
-		i.r.Create(model.Calendar{
-			ID:              v.ID,
-			SameAs:          v.OwlSameAs,
-			Context:         v.Context,
-			Type:            v.Type,
-			Date:            parseDate(v.DcDate),
-			Title:           v.DcTitle,
-			CalendarTitleJa: v.OdptCalendarTitle.Ja,
-			CalendarTitleEn: v.OdptCalendarTitle.En,
-			Duration:        v.OdptDuration,
-			UpdatedAt:       i.now,
-		})
-
-		for _, day := range v.OdptDay {
-			i.r.Create(model.CalendarDay{
-				CalendarID: v.ID,
-				Day:        day,
-				UpdatedAt:  i.now,
-			})
-		}
-	}
-}
-
-func (i Importer) operator() {
-	i.r.Delete(model.Operator{})
-
-	operators, err := i.uc.GetOperator()
-	if err != nil {
-		panic(err)
-	}
-	fmt.Printf("[Operators]: %v\n", len(operators))
-
-	for _, v := range operators {
-		i.r.Create(model.Operator{
-			ID:              v.ID,
-			SameAs:          v.OwlSameAs,
-			Context:         v.Context,
-			Type:            v.Type,
-			Date:            parseDate(v.DcDate),
-			Title:           v.DcTitle,
-			OperatorTitleJa: v.OdptOperatorTitle.Ja,
-			OperatorTitleEn: v.OdptOperatorTitle.En,
-			UpdatedAt:       i.now,
-		})
-	}
+	return &t
 }

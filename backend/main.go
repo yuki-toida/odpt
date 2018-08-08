@@ -29,16 +29,41 @@ func main() {
 		panic(err.Error())
 	}
 	// db.LogMode(true)
-	db.AutoMigrate(model.Calendar{}, model.CalendarDay{}, model.Operator{})
+	db.AutoMigrate(
+		model.Category{},
+		model.Calendar{},
+		model.CalendarDay{},
+		model.Operator{},
+		model.PassengerSurvey{},
+		model.PassengerSurveyObject{},
+		model.PassengerSurveyRailway{},
+		model.PassengerSurveyStation{},
+		model.RailDirection{},
+		model.Railway{},
+		model.RailwayStationOrder{},
+		model.RailwayFare{},
+		model.Station{},
+		model.StationConnectingRailway{},
+		model.StationExit{},
+		model.StationPassengerSurvey{},
+		model.StationStationTimetable{},
+		model.StationTimetable{},
+		model.StationTimetableObject{},
+		model.StationTimetableObjectDestinationStation{},
+		model.StationTimetableObjectOriginStation{},
+		model.StationTimetableObjectViaRailway{},
+		model.StationTimetableObjectViaStation{},
+	)
 
 	cr := repository.NewRepository(db)
 
 	registry := registry.NewRegistry(cr)
 	handler := handler.NewHandler(registry)
 
-	jobrunner.Start()
+	i := importer.NewImporter(registry)
+	i.Run()
+	// jobrunner.Start()
 	// jobrunner.Schedule("@every 1m", importer.NewImporter(registry))
-	importer.NewImporter(registry).Run()
 
 	router := gin.Default()
 	router.Use(cors.Default())
@@ -46,17 +71,16 @@ func main() {
 	router.GET("/healthz", func(c *gin.Context) { c.String(http.StatusOK, "OK") })
 	router.GET("/jobrunner", func(c *gin.Context) { c.JSON(http.StatusOK, jobrunner.StatusJson()) })
 
-	shared := router.Group("/shared")
+	raw := router.Group("/raw")
 	{
-		shared.GET("/calendar", func(c *gin.Context) { handler.GetCalendar(c) })
-		shared.GET("/operator", func(c *gin.Context) { handler.GetOperator(c) })
-	}
-
-	train := router.Group("/train")
-	{
-		train.GET("/passengerSurvey", func(c *gin.Context) { handler.GetPassengerSurvey(c) })
-		train.GET("/railDirection", func(c *gin.Context) { handler.GetRailDirection(c) })
-		train.GET("/railway", func(c *gin.Context) { handler.GetRailway(c) })
+		raw.GET("/calendar", func(c *gin.Context) { handler.GetCalendar(c) })
+		raw.GET("/operator", func(c *gin.Context) { handler.GetOperator(c) })
+		raw.GET("/passengerSurvey", func(c *gin.Context) { handler.GetPassengerSurvey(c) })
+		raw.GET("/railDirection", func(c *gin.Context) { handler.GetRailDirection(c) })
+		raw.GET("/railway", func(c *gin.Context) { handler.GetRailway(c) })
+		raw.GET("/railwayFare", func(c *gin.Context) { handler.GetRailwayFare(c) })
+		raw.GET("/station", func(c *gin.Context) { handler.GetStation(c) })
+		raw.GET("/stationTimetable", func(c *gin.Context) { handler.GetStationTimetable(c) })
 	}
 
 	router.Run(":" + config.Config.Server.Port)

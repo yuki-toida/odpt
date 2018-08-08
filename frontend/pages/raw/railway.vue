@@ -8,8 +8,12 @@
         <th scope="col">@type</th>
         <th scope="col">dc:date</th> -->
         <th scope="col">dc:title</th>
-        <th scope="col">odpt:railDirectionTitle</th>
+        <th scope="col">odpt:lineCode</th>
+        <th scope="col">odpt:operator</th>
+        <th scope="col">odpt:railwayTitle</th>
+        <th scope="col">odpt:stationOrder</th>
         <th scope="col">owl:sameAs</th>
+        <th scope="col">ug:region</th>
       </tr>
     </thead>
     <tbody>
@@ -20,8 +24,12 @@
         <td>{{ obj['@type'] }}</td>
         <td>{{ obj['dc:date'] }}</td> -->
         <td>{{ obj['dc:title'] }}</td>
-        <td>{{ obj['odpt:railDirectionTitle'] }}</td>
+        <td>{{ obj['odpt:lineCode'] }}</td>
+        <td>{{ obj['odpt:operator'] }}</td>
+        <td>{{ obj['odpt:railwayTitle'] }}</td>
+        <td>{{ obj['odpt:stationOrder'] }}</td>
         <td>{{ obj['owl:sameAs'] }}</td>
+        <td>{{ obj['ug:region'] }}</td>
       </tr>
     </tbody>
   </table>
@@ -30,7 +38,7 @@
 <script>
 export default {
   async asyncData(context) {
-    const { data } = await context.app.$axios.$get("/train/railDirection")
+    const { data } = await context.app.$axios.$get("/raw/railway")
     return { data: data }
   }
 }
