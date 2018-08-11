@@ -26,7 +26,9 @@ func (u *UseCase) GetPassengerSurveyMaster(sameAs string) (master.PassengerSurve
 	err := u.Repository.DB.
 		Preload("Operator").
 		Preload("Railways").
+		Preload("Railways.Railway").
 		Preload("Stations").
+		Preload("Stations.Station").
 		Preload("Objects").
 		Where(&master.PassengerSurveyMaster{Base: master.Base{SameAs: sameAs}}).
 		First(&row).
@@ -64,7 +66,22 @@ func (u *UseCase) GetStationMaster(sameAs string) (master.StationMaster, error) 
 		Preload("Exits").
 		Preload("PassengerSurveys").
 		Preload("Timetables").
+		Preload("Timetables.StationTimetable").
 		Where(&master.StationMaster{Base: master.Base{SameAs: sameAs}}).
+		First(&row).
+		Error
+
+	return row, err
+}
+
+// GetStationTimetableMaster func
+func (u *UseCase) GetStationTimetableMaster(sameAs string) (master.StationTimetableMaster, error) {
+	var row master.StationTimetableMaster
+	err := u.Repository.DB.
+		Preload("Calendar").
+		Preload("RailDirection").
+		Preload("Objects").
+		Where(&master.StationTimetableMaster{Base: master.Base{SameAs: sameAs}}).
 		First(&row).
 		Error
 

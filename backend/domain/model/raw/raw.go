@@ -154,7 +154,7 @@ type StationTimetableObject struct {
 	OdptPlatformName       Lang     `json:"odpt:platformName"`
 	OdptPlatformNumber     string   `json:"odpt:platformNumber"`
 	OdptTrain              string   `json:"odpt:train"`
-	OdptTrainName          Lang     `json:"odpt:trainName"`
+	OdptTrainName          []Lang   `json:"odpt:trainName"`
 	OdptTrainType          string   `json:"odpt:trainType"`
 	OdptViaRailway         []string `json:"odpt:viaRailway"`
 	OdptViaStation         []string `json:"odpt:viaStation"`

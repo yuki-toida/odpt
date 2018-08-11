@@ -47,12 +47,13 @@ func main() {
 		master.StationMasterExit{},
 		master.StationMasterPassengerSurvey{},
 		master.StationMasterTimetable{},
-		// master.StationTimetable{},
-		// master.StationTimetableObject{},
-		// master.StationTimetableObjectDestinationStation{},
-		// master.StationTimetableObjectOriginStation{},
-		// master.StationTimetableObjectViaRailway{},
-		// master.StationTimetableObjectViaStation{},
+		master.StationTimetableMaster{},
+		master.StationTimetableMasterObject{},
+		master.StationTimetableMasterObjectDestinationStation{},
+		master.StationTimetableMasterObjectOriginStation{},
+		master.StationTimetableMasterObjectTrainName{},
+		master.StationTimetableMasterObjectViaRailway{},
+		master.StationTimetableMasterObjectViaStation{},
 		// master.TrainTimetable{},
 		// master.TrainTimetableObject{},
 		// master.TrainTimetableDestinationStation{},
@@ -89,6 +90,7 @@ func main() {
 		train.GET("/railways/:sameAs", func(c *gin.Context) { handler.GetRailwayMaster(c) })
 		train.GET("/stations/:sameAs", func(c *gin.Context) { handler.GetStationMaster(c) })
 		train.GET("/passengerSurveys/:sameAs", func(c *gin.Context) { handler.GetPassengerSurveyMaster(c) })
+		train.GET("/stationTimetables/:sameAs", func(c *gin.Context) { handler.GetStationTimetableMaster(c) })
 	}
 
 	router.Run(":" + config.Config.Server.Port)

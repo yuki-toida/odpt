@@ -169,7 +169,7 @@ func (i Importer) station() {
 			Lat:            v.GeoLat,
 			Long:           v.GeoLong,
 			OperatorSameAs: v.OdptOperator,
-			Railway:        v.OdptRailway,
+			RailwaySameAs:  v.OdptRailway,
 			StationCode:    v.OdptStationCode,
 			StationTitleJa: v.OdptStationTitle.Ja,
 			StationTitleEn: v.OdptStationTitle.En,
@@ -209,85 +209,88 @@ func (i Importer) stationTimetable() {
 		panic(err)
 	}
 	fmt.Printf("[StationTimetable]: %v\n", len(stationTimetables))
-	i.r.DB.Delete(master.StationTimetable{})
-	i.r.DB.Delete(master.StationTimetableObject{})
-	i.r.DB.Delete(master.StationTimetableObjectDestinationStation{})
-	i.r.DB.Delete(master.StationTimetableObjectOriginStation{})
-	i.r.DB.Delete(master.StationTimetableObjectViaRailway{})
-	i.r.DB.Delete(master.StationTimetableObjectViaStation{})
+	i.truncate("station_timetable_masters")
+	i.truncate("station_timetable_master_objects")
+	i.truncate("station_timetable_master_object_destination_stations")
+	i.truncate("station_timetable_master_object_origin_stations")
+	i.truncate("station_timetable_master_object_train_names")
+	i.truncate("station_timetable_master_object_via_railways")
+	i.truncate("station_timetable_master_object_via_stations")
 
 	for _, v := range stationTimetables {
 		if v.ID != "" {
-			i.r.DB.Create(&master.StationTimetable{
-				ID:             v.ID,
-				SameAs:         v.OwlSameAs,
-				Context:        v.Context,
-				Type:           v.Type,
-				Date:           parseDate(v.DcDate),
-				Calendar:       v.OdptCalendar,
-				NoteJa:         v.OdptNote.Ja,
-				NoteEn:         v.OdptNote.En,
-				OperatorSameAs: v.OdptOperator,
-				RailDirection:  v.OdptRailDirection,
-				RailwaySameAs:  v.OdptRailway,
-				RailwayTitleJa: v.OdptRailwayTitle.Ja,
-				RailwayTitleEn: v.OdptRailwayTitle.En,
-				Station:        v.OdptStation,
-				StationTitleJa: v.OdptStationTitle.Ja,
-				StationTitleEn: v.OdptStationTitle.En,
+			i.r.DB.Create(&master.StationTimetableMaster{
+				Base: master.Base{ID: v.ID,
+					SameAs:  v.OwlSameAs,
+					Context: v.Context,
+					Type:    v.Type,
+					Date:    parseDate(v.DcDate),
+				},
+				CalendarSameAs:      v.OdptCalendar,
+				NoteJa:              v.OdptNote.Ja,
+				NoteEn:              v.OdptNote.En,
+				OperatorSameAs:      v.OdptOperator,
+				RailDirectionSameAs: v.OdptRailDirection,
+				RailwaySameAs:       v.OdptRailway,
+				RailwayTitleJa:      v.OdptRailwayTitle.Ja,
+				RailwayTitleEn:      v.OdptRailwayTitle.En,
+				Station:             v.OdptStation,
+				StationTitleJa:      v.OdptStationTitle.Ja,
+				StationTitleEn:      v.OdptStationTitle.En,
 			})
 
 			for index, object := range v.OdptStationTimetableObject {
 				index++
-				i.r.DB.Create(&master.StationTimetableObject{
-					StationTimetableID: v.ID,
-					ID:                 index,
-					ArrivalTime:        object.OdptArrivalTime,
-					CarComposition:     object.OdptCarComposition,
-					DepartureTime:      object.OdptDepartureTime,
-					IsLast:             object.OdptIsLast,
-					IsOrigin:           object.OdptIsOrigin,
-					NoteJa:             object.OdptNote.Ja,
-					NoteEn:             object.OdptNote.En,
-					PlatformNameJa:     object.OdptPlatformName.Ja,
-					PlatformNameEn:     object.OdptPlatformName.En,
-					PlatformNumber:     object.OdptPlatformNumber,
-					Train:              object.OdptTrain,
-					TrainNameJa:        object.OdptTrainName.Ja,
-					TrainNameEn:        object.OdptTrainName.En,
-					TrainType:          object.OdptTrainType,
+				i.r.DB.Create(&master.StationTimetableMasterObject{
+					StationTimetableMasterID: v.ID,
+					ArrivalTime:              object.OdptArrivalTime,
+					CarComposition:           object.OdptCarComposition,
+					DepartureTime:            object.OdptDepartureTime,
+					IsLast:                   object.OdptIsLast,
+					IsOrigin:                 object.OdptIsOrigin,
+					NoteJa:                   object.OdptNote.Ja,
+					NoteEn:                   object.OdptNote.En,
+					PlatformNameJa:           object.OdptPlatformName.Ja,
+					PlatformNameEn:           object.OdptPlatformName.En,
+					PlatformNumber:           object.OdptPlatformNumber,
+					Train:                    object.OdptTrain,
+					TrainType:                object.OdptTrainType,
 				})
 
-				for ids, x := range object.OdptDestinationStation {
-					i.r.DB.Create(&master.StationTimetableObjectDestinationStation{
-						StationTimetableID:       v.ID,
-						StationTimetableObjectID: index,
-						ID:            ids + 1,
-						StationSameAs: x,
+				for _, x := range object.OdptDestinationStation {
+					i.r.DB.Create(&master.StationTimetableMasterObjectDestinationStation{
+						StationTimetableMasterID:       v.ID,
+						StationTimetableMasterObjectID: index,
+						StationSameAs:                  x,
 					})
 				}
-				for ios, x := range object.OdptOriginStation {
-					i.r.DB.Create(&master.StationTimetableObjectOriginStation{
-						StationTimetableID:       v.ID,
-						StationTimetableObjectID: index,
-						ID:            ios + 1,
-						StationSameAs: x,
+				for _, x := range object.OdptOriginStation {
+					i.r.DB.Create(&master.StationTimetableMasterObjectOriginStation{
+						StationTimetableMasterID:       v.ID,
+						StationTimetableMasterObjectID: index,
+						StationSameAs:                  x,
 					})
 				}
-				for ivr, x := range object.OdptViaRailway {
-					i.r.DB.Create(&master.StationTimetableObjectViaRailway{
-						StationTimetableID:       v.ID,
-						StationTimetableObjectID: index,
-						ID:            ivr + 1,
-						RailwaySameAs: x,
+				for _, x := range object.OdptTrainName {
+					i.r.DB.Create(&master.StationTimetableMasterObjectTrainName{
+						StationTimetableMasterID:       v.ID,
+						StationTimetableMasterObjectID: index,
+						TrainNameJa:                    x.Ja,
+						TrainNameEn:                    x.En,
 					})
 				}
-				for ivs, x := range object.OdptViaStation {
-					i.r.DB.Create(&master.StationTimetableObjectViaStation{
-						StationTimetableID:       v.ID,
-						StationTimetableObjectID: index,
-						ID:            ivs + 1,
-						StationSameAs: x,
+				for _, x := range object.OdptViaRailway {
+					i.r.DB.Create(&master.StationTimetableMasterObjectViaRailway{
+						StationTimetableMasterID:       v.ID,
+						StationTimetableMasterObjectID: index,
+						RailwaySameAs:                  x,
+					})
+				}
+				for _, x := range object.OdptViaStation {
+					i.r.DB.Create(&master.StationTimetableMasterObjectViaStation{
+						StationTimetableMasterID:       v.ID,
+						StationTimetableMasterObjectID: index,
+						StationSameAs:                  x,
 					})
 				}
 			}

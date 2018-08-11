@@ -61,3 +61,10 @@ func (h *Handler) GetPassengerSurveyMaster(c *gin.Context) {
 	data, err := train.NewUseCase(h.registry.Repository).GetPassengerSurveyMaster(sameAs)
 	handle(c, data, err)
 }
+
+// GetStationTimetableMaster func
+func (h *Handler) GetStationTimetableMaster(c *gin.Context) {
+	sameAs := c.Param("sameAs")
+	data, err := train.NewUseCase(h.registry.Repository).GetStationTimetableMaster(sameAs)
+	handle(c, data, err)
+}

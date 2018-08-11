@@ -93,6 +93,25 @@
         </tr>
       </tbody>
     </table>
+    <table class="table table-sm table-hover">
+      <caption>駅時刻表</caption>
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>駅時刻表</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="(obj, index) in data.Timetables" :key="index">
+          <th>{{ index }}</th>
+          <td>
+            <nuxt-link :to="stationTimetablePath(obj.StationTimetable.SameAs)" class="nav-link">
+              {{ obj.StationTimetable.SameAs }}
+            </nuxt-link>
+          </td>
+        </tr>
+      </tbody>
+    </table>
   </div>
 </template>
 
@@ -114,6 +133,9 @@ export default {
     },
     passengerSurveyPath(sameAs) {
       return `/train/passengerSurveys/${sameAs}`
+    },
+    stationTimetablePath(sameAs) {
+      return `/train/stationTimetables/${sameAs}`
     }
   }
 }

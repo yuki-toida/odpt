@@ -7,12 +7,12 @@
           <td>{{ data.Title }}</td>
         </tr>
         <tr>
-          <th>路線カラー</th>
-          <td>{{ data.Color }}</td>
+          <th>路線名(Ja)</th>
+          <td>{{ data.RailwayTitleJa }}</td>
         </tr>
         <tr>
-          <th>路線名(かな)</th>
-          <td>{{ data.Kana }}</td>
+          <th>路線名(En)</th>
+          <td>{{ data.RailwayTitleEn }}</td>
         </tr>
         <tr>
           <th>路線コード</th>
@@ -25,18 +25,6 @@
         <tr>
           <th>運行会社(En)</th>
           <td>{{ data.Operator.OperatorTitleEn }}</td>
-        </tr>
-        <tr>
-          <th>路線名(Ja)</th>
-          <td>{{ data.RailwayTitleJa }}</td>
-        </tr>
-        <tr>
-          <th>路線名(En)</th>
-          <td>{{ data.RailwayTitleEn }}</td>
-        </tr>
-        <tr>
-          <th>地物情報</th>
-          <td>{{ data.Region }}</td>
         </tr>
       </tbody>
     </table>
