@@ -108,6 +108,7 @@ type Station struct {
 	ID                    string   `json:"@id"`
 	Type                  string   `json:"@type"`
 	DcDate                string   `json:"dc:date"`
+	DcTitle               string   `json:"dc:title"`
 	GeoLat                float64  `json:"geo:lat"`
 	GeoLong               float64  `json:"geo:long"`
 	OdptConnectingRailway []string `json:"odpt:connectingRailway"`

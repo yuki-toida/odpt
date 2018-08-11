@@ -38,34 +38,25 @@
           <th>地物情報</th>
           <td>{{ data.Region }}</td>
         </tr>
+      </tbody>
+    </table>
+    <table class="table table-sm table-hover">
+      <thead>
         <tr>
           <th>駅順序</th>
+          <th>駅名(JA)</th>
+          <th>駅名(En)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="obj in data.StationOrders" :key="obj.Index">
+          <th>{{ obj.Index }}</th>
           <td>
-            <table class="table table-sm table-hover">
-              <thead>
-                <tr>
-                  <th>順序</th>
-                  <th>駅名(JA)</th>
-                  <th>駅名(En)</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr v-for="obj in data.StationOrders" :key="obj.Index">
-                  <th>{{ obj.Index }}</th>
-                  <td>
-                    <nuxt-link :to="path(obj.SameAs)" class="nav-link">
-                      {{ obj.StationTitleJa }}
-                    </nuxt-link>
-                  </td>
-                  <td>
-                    <nuxt-link :to="path(obj.SameAs)" class="nav-link">
-                      {{ obj.StationTitleEn }}
-                    </nuxt-link>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
+            <nuxt-link :to="path(obj.StationSameAs)" class="nav-link">
+              {{ obj.StationTitleJa }}
+            </nuxt-link>
           </td>
+          <td>{{ obj.StationTitleEn }}</td>
         </tr>
       </tbody>
     </table>

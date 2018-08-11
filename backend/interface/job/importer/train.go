@@ -165,6 +165,7 @@ func (i Importer) station() {
 				Type:    v.Type,
 				Date:    parseDate(v.DcDate),
 			},
+			Title:          v.DcTitle,
 			Lat:            v.GeoLat,
 			Long:           v.GeoLong,
 			OperatorSameAs: v.OdptOperator,

@@ -48,15 +48,16 @@ func (h *Handler) GetRailwayMaster(c *gin.Context) {
 	handle(c, data, err)
 }
 
-// GetStationMasters func
-func (h *Handler) GetStationMasters(c *gin.Context) {
-	data := train.NewUseCase(h.registry.Repository).GetStationMasters()
-	handle(c, data, nil)
-}
-
 // GetStationMaster func
 func (h *Handler) GetStationMaster(c *gin.Context) {
 	sameAs := c.Param("sameAs")
 	data, err := train.NewUseCase(h.registry.Repository).GetStationMaster(sameAs)
+	handle(c, data, err)
+}
+
+// GetPassengerSurveyMaster func
+func (h *Handler) GetPassengerSurveyMaster(c *gin.Context) {
+	sameAs := c.Param("sameAs")
+	data, err := train.NewUseCase(h.registry.Repository).GetPassengerSurveyMaster(sameAs)
 	handle(c, data, err)
 }

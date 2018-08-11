@@ -87,8 +87,8 @@ func main() {
 	{
 		train.GET("/railways", func(c *gin.Context) { handler.GetRailwayMasters(c) })
 		train.GET("/railways/:sameAs", func(c *gin.Context) { handler.GetRailwayMaster(c) })
-		train.GET("/stations", func(c *gin.Context) { handler.GetStationMasters(c) })
 		train.GET("/stations/:sameAs", func(c *gin.Context) { handler.GetStationMaster(c) })
+		train.GET("/passengerSurveys/:sameAs", func(c *gin.Context) { handler.GetPassengerSurveyMaster(c) })
 	}
 
 	router.Run(":" + config.Config.Server.Port)

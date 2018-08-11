@@ -24,6 +24,7 @@ func NewUseCase(r *repository.Repository) *UseCase {
 func (u *UseCase) GetPassengerSurveyMaster(sameAs string) (master.PassengerSurveyMaster, error) {
 	var row master.PassengerSurveyMaster
 	err := u.Repository.DB.
+		Preload("Operator").
 		Preload("Railways").
 		Preload("Stations").
 		Preload("Objects").
@@ -36,7 +37,7 @@ func (u *UseCase) GetPassengerSurveyMaster(sameAs string) (master.PassengerSurve
 // GetRailwayMasters func
 func (u *UseCase) GetRailwayMasters() []master.RailwayMaster {
 	var rows []master.RailwayMaster
-	u.Repository.DB.Preload("Operator").Find(&rows)
+	u.Repository.DB.Preload("Operator").Preload("StationOrders").Find(&rows)
 	return rows
 }
 
@@ -51,20 +52,6 @@ func (u *UseCase) GetRailwayMaster(sameAs string) (master.RailwayMaster, error) 
 		Error
 
 	return row, error
-}
-
-// GetStationMasters func
-func (u *UseCase) GetStationMasters() []master.StationMaster {
-	var rows []master.StationMaster
-	u.Repository.DB.
-		Preload("Operator").
-		Preload("ConnectingRailways").
-		Preload("Exits").
-		Preload("PassengerSurveys").
-		Preload("Timetables").
-		Find(&rows)
-
-	return rows
 }
 
 // GetStationMaster func

@@ -128,6 +128,7 @@ type RailwayFareMaster struct {
 // StationMaster struct
 type StationMaster struct {
 	Base
+	Title              string
 	Lat                float64
 	Long               float64
 	OperatorSameAs     string         `json:"-"`
