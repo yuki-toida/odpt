@@ -3,7 +3,7 @@ package importer
 import (
 	"time"
 
-	"github.com/yuki-toida/refodpt/backend/domain/repository"
+	"github.com/yuki-toida/refodpt/backend/infrastructure/repository"
 	"github.com/yuki-toida/refodpt/backend/interface/registry"
 	"github.com/yuki-toida/refodpt/backend/usecase/raw"
 )
@@ -14,7 +14,7 @@ const timeFormat = "2006-01-02T15:04:05-07:00"
 type Importer struct {
 	now time.Time
 	uc  *raw.UseCase
-	r   repository.Repository
+	r   *repository.Repository
 }
 
 // NewImporter func
@@ -36,7 +36,9 @@ func (i Importer) Run() {
 	// i.railway()
 	// i.railwayFare()
 	// i.station()
-	i.stationTimetable()
+	// i.stationTimetable()
+	// i.trainTimetable()
+	// i.trainType()
 }
 
 func parseDate(date string) *time.Time {
@@ -45,4 +47,8 @@ func parseDate(date string) *time.Time {
 		return nil
 	}
 	return &t
+}
+
+func (i Importer) truncate(tableName string) {
+	i.r.DB.Exec("TRUNCATE TABLE " + tableName)
 }

@@ -33,6 +33,7 @@ module.exports = {
   modules: [
     ['@nuxtjs/axios', { baseURL: process.env.BASE_URL || 'http://localhost:8080' }],
     ['bootstrap-vue/nuxt', { css: false }],
+    ['@nuxtjs/toast', { position: 'top-center', duration: 5000 }],
   ],
   plugins: [
     '~/plugins/axios'

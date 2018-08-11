@@ -72,7 +72,7 @@ type Railway struct {
 	OdptKana         string         `json:"odpt:kana"`
 	OdptLineCode     string         `json:"odpt:lineCode"`
 	OdptOperator     string         `json:"odpt:operator"`
-	OdptRainwayTitle Lang           `json:"odpt:railwayTitle"`
+	OdptRailwayTitle Lang           `json:"odpt:railwayTitle"`
 	OdptStationOrder []StationOrder `json:"odpt:stationOrder"`
 	OwlSameAs        string         `json:"owl:sameAs"`
 	UgRegion         string         `json:"ug:region"`
@@ -157,4 +157,53 @@ type StationTimetableObject struct {
 	OdptTrainType          string   `json:"odpt:trainType"`
 	OdptViaRailway         []string `json:"odpt:viaRailway"`
 	OdptViaStation         []string `json:"odpt:viaStation"`
+}
+
+// TrainTimetable struct
+type TrainTimetable struct {
+	Context                    string                 `json:"@context"`
+	ID                         string                 `json:"@id"`
+	Type                       string                 `json:"@type"`
+	DcDate                     string                 `json:"dc:date"`
+	OdptCalendar               string                 `json:"odpt:calendar"`
+	OdptDestinationStation     []string               `json:"odpt:destinationStation"`
+	OdptNeedExtraFee           bool                   `json:"odpt:needExtraFee"`
+	OdptNextTrainTimetable     []string               `json:"odpt:nextTrainTimetable"`
+	OdptNote                   Lang                   `json:"odpt:note"`
+	OdptOperator               string                 `json:"odpt:operator"`
+	OdptOriginStation          []string               `json:"odpt:originStation"`
+	OdptPreviousTrainTimetable []string               `json:"odpt:previousTrainTimetable"`
+	OdptRailDirection          string                 `json:"odpt:railDirection"`
+	OdptRailway                string                 `json:"odpt:railway"`
+	OdptTrain                  string                 `json:"odpt:train"`
+	OdptTrainName              Lang                   `json:"odpt:trainName"`
+	OdptTrainNumber            string                 `json:"odpt:trainNumber"`
+	OdptTrainTimetableObject   []TrainTimetableObject `json:"odpt:trainTimetableObject"`
+	OdptTrainType              string                 `json:"odpt:trainType"`
+	OdptViaRailway             []string               `json:"odpt:viaRailway"`
+	OdptViaStation             []string               `json:"odpt:viaStation"`
+	OwlSameAs                  string                 `json:"owl:sameAs"`
+}
+
+// TrainTimetableObject struct
+type TrainTimetableObject struct {
+	OdptArrivalStation   string `json:"odpt:arrivalStation"`
+	OdptArrivalTime      string `json:"odpt:arrivalTime"`
+	OdptDepartureStation string `json:"odpt:departureStation"`
+	OdptDepartureTime    string `json:"odpt:departureTime"`
+	OdptNote             Lang   `json:"odpt:note"`
+	OdptPlatformName     Lang   `json:"odpt:platformName"`
+	OdptPlatformNumber   string `json:"odpt:platformNumber"`
+}
+
+// TrainType struct
+type TrainType struct {
+	Context            string `json:"@context"`
+	ID                 string `json:"@id"`
+	Type               string `json:"@type"`
+	DcDate             string `json:"dc:date"`
+	DcTitle            string `json:"dc:title"`
+	OdptOperator       string `json:"odpt:operator"`
+	OdptTrainTypeTitle Lang   `json:"odpt:trainTypeTitle"`
+	OwlSameAs          string `json:"owl:sameAs"`
 }

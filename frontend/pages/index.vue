@@ -1,39 +1,41 @@
 <template>
   <div>
     <p class="font-weight-bold">
-      <a :href="doclink('_共通クラス')" target="_blank">SharedAPI</a>
+      <a :href="docpath" target="_blank">公式ドキュメント</a>
     </p>
-    <ul class="list-group">
-      <li class="list-group-item">
-        <nuxt-link to="/raw/calendar">odpt:Calendar</nuxt-link>
-      </li>
-      <li class="list-group-item">
-        <nuxt-link to="/raw/operator">odpt:Operator</nuxt-link>
-      </li>
-    </ul>
-    <p class="font-weight-bold mt-3">
-      <a :href="doclink('_odpt_train_api')" target="_blank">TrainAPI</a>
-    </p>
-    <ul class="list-group">
-      <li class="list-group-item">
-        <nuxt-link to="/raw/passengerSurvey">odpt:PassengerSurvey</nuxt-link>
-      </li>
-      <li class="list-group-item">
-        <nuxt-link to="/raw/railDirection">odpt:RailDirection</nuxt-link>
-      </li>
-      <li class="list-group-item">
-        <nuxt-link to="/raw/railway">odpt:Railway</nuxt-link>
-      </li>
-    </ul>
+    <table class="table table-sm table-hover">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Category</th>
+          <th scope="col">Type</th>
+          <th scope="col">Name</th>
+          <th scope="col">Desc</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="obj in data" :key="obj.ID">
+          <th scope="row">{{ obj.ID }}</th>
+          <td>{{ obj.Category }}</td>
+          <td>{{ obj.Type }}</td>
+          <td>{{ obj.Name }}</td>
+          <td>{{ obj.Desc }}</td>
+        </tr>
+      </tbody>
+    </table>
   </div>
 </template>
 
 <script>
 export default {
-  methods: {
-    doclink: function(path) {
-      return `https://developer-tokyochallenge.odpt.org/documents#${path}`
+  data: function() {
+    return {
+      docpath: "https://developer-tokyochallenge.odpt.org/documents"
     }
+  },
+  async asyncData(context) {
+    const { data } = await context.app.$axios.$get("/shared/categories")
+    return { data: data }
   }
 }
 </script>

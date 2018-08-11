@@ -11,7 +11,7 @@ import (
 	"github.com/jinzhu/gorm"
 
 	"github.com/yuki-toida/refodpt/backend/config"
-	"github.com/yuki-toida/refodpt/backend/domain/model"
+	"github.com/yuki-toida/refodpt/backend/domain/model/master"
 	"github.com/yuki-toida/refodpt/backend/infrastructure/repository"
 	"github.com/yuki-toida/refodpt/backend/interface/handler"
 	"github.com/yuki-toida/refodpt/backend/interface/job/importer"
@@ -28,31 +28,40 @@ func main() {
 	if err != nil {
 		panic(err.Error())
 	}
-	// db.LogMode(true)
+	db.LogMode(true)
 	db.AutoMigrate(
-		model.Category{},
-		model.Calendar{},
-		model.CalendarDay{},
-		model.Operator{},
-		model.PassengerSurvey{},
-		model.PassengerSurveyObject{},
-		model.PassengerSurveyRailway{},
-		model.PassengerSurveyStation{},
-		model.RailDirection{},
-		model.Railway{},
-		model.RailwayStationOrder{},
-		model.RailwayFare{},
-		model.Station{},
-		model.StationConnectingRailway{},
-		model.StationExit{},
-		model.StationPassengerSurvey{},
-		model.StationStationTimetable{},
-		model.StationTimetable{},
-		model.StationTimetableObject{},
-		model.StationTimetableObjectDestinationStation{},
-		model.StationTimetableObjectOriginStation{},
-		model.StationTimetableObjectViaRailway{},
-		model.StationTimetableObjectViaStation{},
+		master.CategoryMaster{},
+		master.CalendarMaster{},
+		master.CalendarMasterDay{},
+		master.OperatorMaster{},
+		master.PassengerSurveyMaster{},
+		master.PassengerSurveyMasterObject{},
+		master.PassengerSurveyMasterRailway{},
+		master.PassengerSurveyMasterStation{},
+		master.RailDirectionMaster{},
+		master.RailwayMaster{},
+		master.RailwayMasterStationOrder{},
+		master.RailwayFareMaster{},
+		master.StationMaster{},
+		master.StationMasterConnectingRailway{},
+		master.StationMasterExit{},
+		master.StationMasterPassengerSurvey{},
+		master.StationMasterTimetable{},
+		// master.StationTimetable{},
+		// master.StationTimetableObject{},
+		// master.StationTimetableObjectDestinationStation{},
+		// master.StationTimetableObjectOriginStation{},
+		// master.StationTimetableObjectViaRailway{},
+		// master.StationTimetableObjectViaStation{},
+		// master.TrainTimetable{},
+		// master.TrainTimetableObject{},
+		// master.TrainTimetableDestinationStation{},
+		// master.TrainTimetableOriginStation{},
+		// master.TrainTimetableNext{},
+		// master.TrainTimetablePrevious{},
+		// master.TrainTimetableViaRailway{},
+		// master.TrainTimetableViaStation{},
+		// master.TrainType{},
 	)
 
 	cr := repository.NewRepository(db)
@@ -70,17 +79,16 @@ func main() {
 
 	router.GET("/healthz", func(c *gin.Context) { c.String(http.StatusOK, "OK") })
 	router.GET("/jobrunner", func(c *gin.Context) { c.JSON(http.StatusOK, jobrunner.StatusJson()) })
-
-	raw := router.Group("/raw")
+	shared := router.Group("/shared")
 	{
-		raw.GET("/calendar", func(c *gin.Context) { handler.GetCalendar(c) })
-		raw.GET("/operator", func(c *gin.Context) { handler.GetOperator(c) })
-		raw.GET("/passengerSurvey", func(c *gin.Context) { handler.GetPassengerSurvey(c) })
-		raw.GET("/railDirection", func(c *gin.Context) { handler.GetRailDirection(c) })
-		raw.GET("/railway", func(c *gin.Context) { handler.GetRailway(c) })
-		raw.GET("/railwayFare", func(c *gin.Context) { handler.GetRailwayFare(c) })
-		raw.GET("/station", func(c *gin.Context) { handler.GetStation(c) })
-		raw.GET("/stationTimetable", func(c *gin.Context) { handler.GetStationTimetable(c) })
+		shared.GET("/categories", func(c *gin.Context) { handler.GetCategoryMasters(c) })
+	}
+	train := router.Group("/train")
+	{
+		train.GET("/railways", func(c *gin.Context) { handler.GetRailwayMasters(c) })
+		train.GET("/railways/:sameAs", func(c *gin.Context) { handler.GetRailwayMaster(c) })
+		train.GET("/stations", func(c *gin.Context) { handler.GetStationMasters(c) })
+		train.GET("/stations/:sameAs", func(c *gin.Context) { handler.GetStationMaster(c) })
 	}
 
 	router.Run(":" + config.Config.Server.Port)

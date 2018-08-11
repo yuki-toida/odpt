@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "@nuxtjs/axios": "latest",
+    "@nuxtjs/toast": "latest",
     "bootstrap-vue": "latest",
     "nuxt": "latest"
   },

@@ -5,7 +5,8 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/yuki-toida/refodpt/backend/interface/registry"
-	"github.com/yuki-toida/refodpt/backend/usecase/raw"
+	"github.com/yuki-toida/refodpt/backend/usecase/shared"
+	"github.com/yuki-toida/refodpt/backend/usecase/train"
 )
 
 // Handler type
@@ -21,57 +22,41 @@ func NewHandler(r *registry.Registry) *Handler {
 }
 
 func handle(c *gin.Context, data interface{}, err error) {
+	res := gin.H{"data": data}
 	if err != nil {
-		c.JSON(http.StatusOK, gin.H{"error": err.Error()})
-	} else {
-		c.JSON(http.StatusOK, gin.H{"data": data})
+		res["error"] = err.Error()
 	}
+	c.JSON(http.StatusOK, res)
 }
 
-// GetCalendar func
-func (h *Handler) GetCalendar(c *gin.Context) {
-	data, err := raw.NewUseCase().GetCalendar()
+// GetCategoryMasters func
+func (h *Handler) GetCategoryMasters(c *gin.Context) {
+	data := shared.NewUseCase(h.registry.Repository).GetCategoryMasters()
+	handle(c, data, nil)
+}
+
+// GetRailwayMasters func
+func (h *Handler) GetRailwayMasters(c *gin.Context) {
+	data := train.NewUseCase(h.registry.Repository).GetRailwayMasters()
+	handle(c, data, nil)
+}
+
+// GetRailwayMaster func
+func (h *Handler) GetRailwayMaster(c *gin.Context) {
+	sameAs := c.Param("sameAs")
+	data, err := train.NewUseCase(h.registry.Repository).GetRailwayMaster(sameAs)
 	handle(c, data, err)
 }
 
-// GetOperator func
-func (h *Handler) GetOperator(c *gin.Context) {
-	data, err := raw.NewUseCase().GetOperator()
-	handle(c, data, err)
+// GetStationMasters func
+func (h *Handler) GetStationMasters(c *gin.Context) {
+	data := train.NewUseCase(h.registry.Repository).GetStationMasters()
+	handle(c, data, nil)
 }
 
-// GetPassengerSurvey func
-func (h *Handler) GetPassengerSurvey(c *gin.Context) {
-	data, err := raw.NewUseCase().GetPassengerSurvey()
-	handle(c, data, err)
-}
-
-// GetRailDirection func
-func (h *Handler) GetRailDirection(c *gin.Context) {
-	data, err := raw.NewUseCase().GetRailDirection()
-	handle(c, data, err)
-}
-
-// GetRailway func
-func (h *Handler) GetRailway(c *gin.Context) {
-	data, err := raw.NewUseCase().GetRailway()
-	handle(c, data, err)
-}
-
-// GetRailwayFare func
-func (h *Handler) GetRailwayFare(c *gin.Context) {
-	data, err := raw.NewUseCase().GetRailwayFare()
-	handle(c, data, err)
-}
-
-// GetStation func
-func (h *Handler) GetStation(c *gin.Context) {
-	data, err := raw.NewUseCase().GetStation()
-	handle(c, data, err)
-}
-
-// GetStationTimetable func
-func (h *Handler) GetStationTimetable(c *gin.Context) {
-	data, err := raw.NewUseCase().GetStationTimetable()
+// GetStationMaster func
+func (h *Handler) GetStationMaster(c *gin.Context) {
+	sameAs := c.Param("sameAs")
+	data, err := train.NewUseCase(h.registry.Repository).GetStationMaster(sameAs)
 	handle(c, data, err)
 }
