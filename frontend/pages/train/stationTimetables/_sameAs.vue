@@ -3,6 +3,14 @@
     <table class="table table-sm table-hover">
       <tbody>
         <tr>
+          <th>StationTimetableID</th>
+          <td>{{ data.ID }}</td>
+        </tr>
+        <tr>
+          <th>StationTimetableSameAs</th>
+          <td>{{ data.SameAs }}</td>
+        </tr>
+        <tr>
           <th>カレンダー</th>
           <td>{{ data.Calendar }}</td>
         </tr>
@@ -22,7 +30,7 @@
       </thead>
       <tbody>
         <tr v-for="(obj, index) in data.Objects" :key="index">
-          <th>{{ index }}</th>
+          <th>{{ index + 1 }}</th>
           <td>{{ obj }}</td>
         </tr>
       </tbody>

@@ -3,6 +3,14 @@
     <table class="table table-sm table-hover">
       <tbody>
         <tr>
+          <th>RailwayID</th>
+          <td>{{ data.ID }}</td>
+        </tr>
+        <tr>
+          <th>RailwaySameAs</th>
+          <td>{{ data.SameAs }}</td>
+        </tr>
+        <tr>
           <th>路線名(Ja)</th>
           <td>{{ data.RailwayTitleJa }}</td>
         </tr>

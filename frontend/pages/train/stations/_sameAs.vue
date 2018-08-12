@@ -3,6 +3,14 @@
     <table class="table table-sm table-hover">
       <tbody>
         <tr>
+          <th>StationID</th>
+          <td>{{ data.ID }}</td>
+        </tr>
+        <tr>
+          <th>StationSameAs</th>
+          <td>{{ data.SameAs }}</td>
+        </tr>
+        <tr>
           <th>駅名(Ja)</th>
           <td>{{ data.StationTitleJa }}</td>
         </tr>
@@ -45,16 +53,18 @@
         <tr>
           <th>#</th>
           <th>乗換可能路線名</th>
+          <th>RailwaySameAs</th>
         </tr>
       </thead>
       <tbody>
         <tr v-for="(obj, index) in data.ConnectingRailways" :key="index">
           <th>{{ index + 1 }}</th>
           <td>
-            <nuxt-link :to="railwayPath(obj.Railway.SameAs)" class="nav-link">
+            <nuxt-link v-if="obj.Railway" :to="railwayPath(obj.Railway.SameAs)" class="nav-link">
               {{ obj.Railway.RailwayTitleJa }}({{ obj.Railway.RailwayTitleEn }})
             </nuxt-link>
           </td>
+          <td>{{ obj.RailwaySameAs }}</td>
         </tr>
       </tbody>
     </table>
@@ -87,7 +97,7 @@
         <tr v-for="(obj, index) in data.Timetables" :key="index">
           <th>{{ index + 1 }}</th>
           <td>
-            <nuxt-link :to="stationTimetablePath(obj.StationTimetable.SameAs)" class="nav-link">
+            <nuxt-link v-if="obj.StationTimetable" :to="stationTimetablePath(obj.StationTimetable.SameAs)" class="nav-link">
               {{ obj.StationTimetable.SameAs }}
             </nuxt-link>
           </td>

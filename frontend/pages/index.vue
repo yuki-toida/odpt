@@ -7,10 +7,11 @@
       <thead>
         <tr>
           <th scope="col">#</th>
-          <th scope="col">Category</th>
-          <th scope="col">Type</th>
-          <th scope="col">Name</th>
-          <th scope="col">Desc</th>
+          <th scope="col">種別</th>
+          <th scope="col">rdf:type</th>
+          <th scope="col">名称</th>
+          <th scope="col">詳細</th>
+          <th scope="col">更新日時</th>
         </tr>
       </thead>
       <tbody>
@@ -20,6 +21,7 @@
           <td>{{ obj.Type }}</td>
           <td>{{ obj.Name }}</td>
           <td>{{ obj.Desc }}</td>
+          <td>{{ obj.UpdatedAt }}</td>
         </tr>
       </tbody>
     </table>

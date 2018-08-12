@@ -4,7 +4,7 @@ import "time"
 
 // Base struct
 type Base struct {
-	ID      string     `json:"-"`
+	ID      string
 	SameAs  string     `gorm:"not null;unique"`
 	Context string     `json:"-"`
 	Type    string     `json:"-"`
@@ -18,7 +18,7 @@ type CategoryMaster struct {
 	Type      string
 	Name      string
 	Desc      string
-	UpdatedAt time.Time `gorm:"type:datetime" json:"-"`
+	UpdatedAt time.Time `gorm:"type:datetime"`
 }
 
 // CalendarMaster struct
@@ -149,10 +149,10 @@ type StationMaster struct {
 
 // StationMasterConnectingRailway struct
 type StationMasterConnectingRailway struct {
-	ID              uint          `json:"-"`
-	StationMasterID string        `json:"-"`
-	RailwaySameAs   string        `json:"-"`
-	Railway         RailwayMaster `gorm:"foreignkey:SameAs;association_foreignkey:RailwaySameAs"`
+	ID              uint   `json:"-"`
+	StationMasterID string `json:"-"`
+	RailwaySameAs   string
+	Railway         *RailwayMaster `gorm:"foreignkey:SameAs;association_foreignkey:RailwaySameAs"`
 }
 
 // StationMasterExit struct
@@ -171,9 +171,9 @@ type StationMasterPassengerSurvey struct {
 
 // StationMasterTimetable struct
 type StationMasterTimetable struct {
-	ID                     uint                   `json:"-"`
-	StationMasterID        string                 `json:"-"`
-	StationTimetableSameAs string                 `json:"-"`
+	ID                     uint   `json:"-"`
+	StationMasterID        string `json:"-"`
+	StationTimetableSameAs string
 	StationTimetable       StationTimetableMaster `gorm:"foreignkey:SameAs;association_foreignkey:StationTimetableSameAs"`
 }
 

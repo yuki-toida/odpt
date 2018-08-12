@@ -3,6 +3,14 @@
     <table class="table table-sm table-hover">
       <tbody>
         <tr>
+          <th>PassengerSurveyID</th>
+          <td>{{ data.ID }}</td>
+        </tr>
+        <tr>
+          <th>PassengerSurveySameAs</th>
+          <td>{{ data.SameAs }}</td>
+        </tr>
+        <tr>
           <th>運行会社</th>
           <td>{{ data.Operator.OperatorTitleJa }} ({{ data.Operator.OperatorTitleEn }})</td>
         </tr>
@@ -43,12 +51,14 @@
         <tr>
           <th>#</th>
           <th>駅名</th>
+          <th>StationSameAs</th>
         </tr>
       </thead>
       <tbody>
         <tr v-for="(obj, index) in data.Stations" :key="index">
           <th>{{ index + 1 }}</th>
           <td>{{ obj.Station.StationTitleJa }} ({{ obj.Station.StationTitleEn }})</td>
+          <td>{{ obj.Station.SameAs }}</td>
         </tr>
       </tbody>
     </table>
