@@ -3,21 +3,23 @@
     <thead>
       <tr>
         <th>#</th>
-        <th>運行会社</th>
         <th>路線名</th>
         <th>路線コード</th>
         <th>駅数</th>
+        <th>運行会社</th>
       </tr>
     </thead>
     <tbody>
       <tr v-for="(obj, index) in data" :key="index">
-        <th>{{ index }}</th>
-        <td>{{ obj.Operator.OperatorTitleJa }}</td>
+        <th>{{ index + 1 }}</th>
         <td>
-          <nuxt-link :to="path(obj.SameAs)" class="nav-link">{{ obj.Title }}</nuxt-link>
+          <nuxt-link :to="path(obj.SameAs)" class="nav-link">
+            {{ obj.RailwayTitleJa }} ({{ obj.RailwayTitleEn }})
+          </nuxt-link>
         </td>
         <td>{{ obj.LineCode }}</td>
         <td>{{ obj.StationOrders.length }}</td>
+        <td>{{ obj.Operator.OperatorTitleJa }} ({{ obj.Operator.OperatorTitleEn }})</td>
       </tr>
     </tbody>
   </table>

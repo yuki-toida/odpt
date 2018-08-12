@@ -3,10 +3,6 @@
     <table class="table table-sm table-hover">
       <tbody>
         <tr>
-          <th>路線名</th>
-          <td>{{ data.Title }}</td>
-        </tr>
-        <tr>
           <th>路線名(Ja)</th>
           <td>{{ data.RailwayTitleJa }}</td>
         </tr>
@@ -17,6 +13,10 @@
         <tr>
           <th>路線コード</th>
           <td>{{ data.LineCode }}</td>
+        </tr>
+        <tr>
+          <th>駅数</th>
+          <td>{{ data.StationOrders.length }}</td>
         </tr>
         <tr>
           <th>運行会社(Ja)</th>
@@ -32,8 +32,7 @@
       <thead>
         <tr>
           <th>駅順序</th>
-          <th>駅名(JA)</th>
-          <th>駅名(En)</th>
+          <th>駅名</th>
         </tr>
       </thead>
       <tbody>
@@ -41,10 +40,9 @@
           <th>{{ obj.Index }}</th>
           <td>
             <nuxt-link :to="path(obj.StationSameAs)" class="nav-link">
-              {{ obj.StationTitleJa }}
+              {{ obj.StationTitleJa }} ({{ obj.StationTitleEn }})
             </nuxt-link>
           </td>
-          <td>{{ obj.StationTitleEn }}</td>
         </tr>
       </tbody>
     </table>

@@ -140,9 +140,9 @@ type StationMaster struct {
 	StationCode        string
 	StationTitleJa     string
 	StationTitleEn     string
-	Region             string
+	Region             string `json:"-"`
 	ConnectingRailways []StationMasterConnectingRailway
-	Exits              []StationMasterExit
+	Exits              []StationMasterExit `json:"-"`
 	PassengerSurveys   []StationMasterPassengerSurvey
 	Timetables         []StationMasterTimetable
 }

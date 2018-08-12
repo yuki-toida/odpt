@@ -3,17 +3,12 @@
     <table class="table table-sm table-hover">
       <tbody>
         <tr>
-          <th>運行会社(Ja)</th>
-          <td>{{ data.Operator.OperatorTitleJa }}</td>
-        </tr>
-        <tr>
-          <th>運行会社(En)</th>
-          <td>{{ data.Operator.OperatorTitleEn }}</td>
+          <th>運行会社</th>
+          <td>{{ data.Operator.OperatorTitleJa }} ({{ data.Operator.OperatorTitleEn }})</td>
         </tr>
       </tbody>
     </table>
     <table class="table table-sm table-hover">
-      <caption>乗降数</caption>
       <thead>
         <tr>
           <th>#</th>
@@ -23,14 +18,13 @@
       </thead>
       <tbody>
         <tr v-for="(obj, index) in data.Objects" :key="index">
-          <th>{{ index }}</th>
+          <th>{{ index + 1 }}</th>
           <td>{{ obj.SurveyYear }}</td>
           <td>{{ obj.PassengerJourneys }}</td>
         </tr>
       </tbody>
     </table>
     <table class="table table-sm table-hover">
-      <caption>路線名</caption>
       <thead>
         <tr>
           <th>#</th>
@@ -39,13 +33,12 @@
       </thead>
       <tbody>
         <tr v-for="(obj, index) in data.Railways" :key="index">
-          <th>{{ index }}</th>
-          <td>{{ obj.Railway.Title }}</td>
+          <th>{{ index + 1 }}</th>
+          <td>{{ obj.Railway.RailwayTitleJa }} ({{ obj.Railway.RailwayTitleEn }})</td>
         </tr>
       </tbody>
     </table>
     <table class="table table-sm table-hover">
-      <caption>駅名</caption>
       <thead>
         <tr>
           <th>#</th>
@@ -54,8 +47,8 @@
       </thead>
       <tbody>
         <tr v-for="(obj, index) in data.Stations" :key="index">
-          <th>{{ index }}</th>
-          <td>{{ obj.Station.Title }}</td>
+          <th>{{ index + 1 }}</th>
+          <td>{{ obj.Station.StationTitleJa }} ({{ obj.Station.StationTitleEn }})</td>
         </tr>
       </tbody>
     </table>

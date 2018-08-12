@@ -61,9 +61,9 @@ func (u *UseCase) GetStationMaster(sameAs string) (master.StationMaster, error) 
 	var row master.StationMaster
 	err := u.Repository.DB.
 		Preload("Operator").
+		Preload("Railway").
 		Preload("ConnectingRailways").
 		Preload("ConnectingRailways.Railway").
-		Preload("Exits").
 		Preload("PassengerSurveys").
 		Preload("Timetables").
 		Preload("Timetables.StationTimetable").
