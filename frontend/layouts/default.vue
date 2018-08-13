@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <nav class="navbar navbar-expand-lg">
-      <nuxt-link class="navbar-brand" to="/">Odpt管理画面</nuxt-link>
+      <nuxt-link class="navbar-brand" to="/">Odpt Admin</nuxt-link>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"/>
       </button>
@@ -9,6 +9,9 @@
         <ul class="navbar-nav">
           <li class="nav-item active">
             <nuxt-link class="nav-link" to="/train/railways">鉄道 <span class="sr-only">(current)</span></nuxt-link>
+          </li>
+          <li class="nav-item active">
+            <nuxt-link class="nav-link" to="/train/trains">列車</nuxt-link>
           </li>
         </ul>
       </div>

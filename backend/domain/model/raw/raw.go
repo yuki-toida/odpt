@@ -160,6 +160,33 @@ type StationTimetableObject struct {
 	OdptViaStation         []string `json:"odpt:viaStation"`
 }
 
+// Train struct
+type Train struct {
+	Context                string   `json:"@context"`
+	ID                     string   `json:"@id"`
+	Type                   string   `json:"@type"`
+	DcDate                 string   `json:"dc:date"`
+	DcValid                string   `json:"dc:valid"`
+	OdptCarComposition     int      `json:"odpt:carComposition"`
+	OdptDelay              int      `json:"odpt:delay"`
+	OdptDestinationStation []string `json:"odpt:destinationStation"`
+	OdptFromStation        string   `json:"odpt:fromStation"`
+	OdptIndex              int      `json:"odpt:index"`
+	OdptNote               Lang     `json:"odpt:note"`
+	OdptOperator           string   `json:"odpt:operator"`
+	OdptOriginStation      []string `json:"odpt:originStation"`
+	OdptRailDirection      string   `json:"odpt:railDirection"`
+	OdptRailway            string   `json:"odpt:railway"`
+	OdptToStation          string   `json:"odpt:toStation"`
+	OdptTrainName          []Lang   `json:"odpt:trainName"`
+	OdptTrainNumber        string   `json:"odpt:trainNumber"`
+	OdptTrainOwner         string   `json:"odpt:trainOwner"`
+	OdptTrainType          string   `json:"odpt:trainType"`
+	OdptViaRailway         []string `json:"odpt:viaRailway"`
+	OdptViaStation         []string `json:"odpt:viaStation"`
+	OwlSameAs              string   `json:"owl:sameAs"`
+}
+
 // TrainTimetable struct
 type TrainTimetable struct {
 	Context                    string                 `json:"@context"`
@@ -177,7 +204,7 @@ type TrainTimetable struct {
 	OdptRailDirection          string                 `json:"odpt:railDirection"`
 	OdptRailway                string                 `json:"odpt:railway"`
 	OdptTrain                  string                 `json:"odpt:train"`
-	OdptTrainName              Lang                   `json:"odpt:trainName"`
+	OdptTrainName              []Lang                 `json:"odpt:trainName"`
 	OdptTrainNumber            string                 `json:"odpt:trainNumber"`
 	OdptTrainTimetableObject   []TrainTimetableObject `json:"odpt:trainTimetableObject"`
 	OdptTrainType              string                 `json:"odpt:trainType"`

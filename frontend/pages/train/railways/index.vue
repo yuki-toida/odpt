@@ -13,7 +13,7 @@
       <tr v-for="(obj, index) in data" :key="index">
         <th>{{ index + 1 }}</th>
         <td>
-          <nuxt-link :to="path(obj.SameAs)" class="nav-link">
+          <nuxt-link :to="railwayPath(obj.SameAs)" class="nav-link">
             {{ obj.RailwayTitleJa }} ({{ obj.RailwayTitleEn }})
           </nuxt-link>
         </td>
@@ -32,7 +32,7 @@ export default {
     return { data: data }
   },
   methods: {
-    path(sameAs) {
+    railwayPath(sameAs) {
       return `/train/railways/${sameAs}`
     }
   }

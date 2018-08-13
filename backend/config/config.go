@@ -17,10 +17,11 @@ var Config struct {
 		Host string `toml:"host"`
 		Port string `toml:"port"`
 	}
-	Db struct {
+	DB struct {
 		Host string `toml:"host"`
 		Port string `toml:"port"`
 		Name string `toml:"name"`
+		Pool int    `toml:"pool"`
 	}
 }
 

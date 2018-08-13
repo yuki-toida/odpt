@@ -72,24 +72,6 @@
       <thead>
         <tr>
           <th>#</th>
-          <th>乗降人員調査</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr v-for="(obj, index) in data.PassengerSurveys" :key="index">
-          <th>{{ index + 1 }}</th>
-          <td>
-            <nuxt-link :to="passengerSurveyPath(obj.PassengerSurveySameAs)" class="nav-link">
-              {{ obj.PassengerSurveySameAs }}
-            </nuxt-link>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-    <table class="table table-sm table-hover">
-      <thead>
-        <tr>
-          <th>#</th>
           <th>駅時刻表</th>
         </tr>
       </thead>
@@ -99,6 +81,24 @@
           <td>
             <nuxt-link v-if="obj.StationTimetable" :to="stationTimetablePath(obj.StationTimetable.SameAs)" class="nav-link">
               {{ obj.StationTimetable.SameAs }}
+            </nuxt-link>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <table class="table table-sm table-hover">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>乗降人員調査</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="(obj, index) in data.PassengerSurveys" :key="index">
+          <th>{{ index + 1 }}</th>
+          <td>
+            <nuxt-link :to="passengerSurveyPath(obj.PassengerSurveySameAs)" class="nav-link">
+              {{ obj.PassengerSurveySameAs }}
             </nuxt-link>
           </td>
         </tr>

@@ -11,16 +11,6 @@ type Base struct {
 	Date    *time.Time `gorm:"type:datetime" json:"-"`
 }
 
-// CategoryMaster struct
-type CategoryMaster struct {
-	ID        uint
-	Category  string
-	Type      string
-	Name      string
-	Desc      string
-	UpdatedAt time.Time `gorm:"type:datetime"`
-}
-
 // CalendarMaster struct
 type CalendarMaster struct {
 	Base
@@ -198,10 +188,10 @@ type StationTimetableMaster struct {
 
 // StationTimetableMasterObject struct
 type StationTimetableMasterObject struct {
-	ID                       int    `json:"-"`
+	ID                       int
 	StationTimetableMasterID string `json:"-"`
-	ArrivalTime              string
-	CarComposition           int `json:"-"`
+	ArrivalTime              string `json:"-"`
+	CarComposition           int    `json:"-"`
 	DepartureTime            string
 	IsLast                   bool   `json:"-"`
 	IsOrigin                 bool   `json:"-"`
@@ -210,13 +200,14 @@ type StationTimetableMasterObject struct {
 	PlatformNameJa           string `json:"-"`
 	PlatformNameEn           string `json:"-"`
 	PlatformNumber           string `json:"-"`
-	Train                    string
-	TrainType                string
+	TrainSameAs              string
+	TrainTypeSameAs          string          `json:"-"`
+	TrainType                TrainTypeMaster `gorm:"foreignkey:SameAs;association_foreignkey:TrainTypeSameAs"`
 	DestinationStations      []StationTimetableMasterObjectDestinationStation
-	OriginStations           []StationTimetableMasterObjectOriginStation
+	OriginStations           []StationTimetableMasterObjectOriginStation `json:"-"`
 	TrainNames               []StationTimetableMasterObjectTrainName
 	ViaRailways              []StationTimetableMasterObjectViaRailway
-	ViaStations              []StationTimetableMasterObjectViaStation
+	ViaStations              []StationTimetableMasterObjectViaStation `json:"-"`
 }
 
 // StationTimetableMasterObjectDestinationStation struct
@@ -260,92 +251,92 @@ type StationTimetableMasterObjectViaStation struct {
 	StationSameAs                  string
 }
 
-// TrainTimetable struct
-type TrainTimetable struct {
-	ID             string
-	SameAs         string `gorm:"not null;unique"`
-	Context        string
-	Type           string
-	Date           *time.Time `gorm:"type:datetime"`
-	Calendar       string
-	NeedExtraFee   bool
-	NoteJa         string
-	NoteEn         string
-	OperatorSameAs string
-	Operator       OperatorMaster `gorm:"foreignkey:SameAs;association_foreignkey:OperatorSameAs"`
-	RailDirection  string
-	Railway        string
-	Train          string
-	TrainNameJa    string
-	TrainNameEn    string
-	TrainNumber    string
-	TrainType      string
+// TrainTimetableMaster struct
+type TrainTimetableMaster struct {
+	Base
+	CalendarSameAs      string
+	NeedExtraFee        bool                `json:"-"`
+	NoteJa              string              `json:"-"`
+	NoteEn              string              `json:"-"`
+	OperatorSameAs      string              `json:"-"`
+	RailDirectionSameAs string              `json:"-"`
+	RailDirection       RailDirectionMaster `gorm:"foreignkey:SameAs;association_foreignkey:RailDirectionSameAs"`
+	RailwaySameAs       string              `json:"-"`
+	TrainSameAs         string
+	TrainNumber         string
+	TrainOwner          string
+	TrainTypeSameAs     string          `json:"-"`
+	TrainType           TrainTypeMaster `gorm:"foreignkey:SameAs;association_foreignkey:TrainTypeSameAs"`
 }
 
-// TrainTimetableObject struct
-type TrainTimetableObject struct {
-	TrainTimetableID string `gorm:"primary_key"`
-	ID               int    `gorm:"primary_key;type:int"`
-	ArrivalStation   string
-	ArrivalTime      string
-	DepartureStation string
-	DepartureTime    string
-	NoteJa           string
-	NoteEn           string
-	PlatformNameJa   string
-	PlatformNameEn   string
-	PlatformNumber   string
+// TrainTimetableMasterObject struct
+type TrainTimetableMasterObject struct {
+	ID                     uint   `json:"-"`
+	TrainTimetableMasterID string `json:"-"`
+	ArrivalStation         string
+	ArrivalTime            string
+	DepartureStation       string
+	DepartureTime          string
+	NoteJa                 string `json:"-"`
+	NoteEn                 string `json:"-"`
+	PlatformNameJa         string `json:"-"`
+	PlatformNameEn         string `json:"-"`
+	PlatformNumber         string `json:"-"`
 }
 
-// TrainTimetableDestinationStation struct
-type TrainTimetableDestinationStation struct {
-	TrainTimetableID string `gorm:"primary_key"`
-	ID               int    `gorm:"primary_key;type:int"`
-	StationSameAs    string
+// TrainTimetableMasterDestinationStation struct
+type TrainTimetableMasterDestinationStation struct {
+	ID                     uint   `json:"-"`
+	TrainTimetableMasterID string `json:"-"`
+	StationSameAs          string
 }
 
-// TrainTimetableOriginStation struct
-type TrainTimetableOriginStation struct {
-	TrainTimetableID string `gorm:"primary_key"`
-	ID               int    `gorm:"primary_key;type:int"`
-	StationSameAs    string
+// TrainTimetableMasterOriginStation struct
+type TrainTimetableMasterOriginStation struct {
+	ID                     uint   `json:"-"`
+	TrainTimetableMasterID string `json:"-"`
+	StationSameAs          string
 }
 
-// TrainTimetableNext struct
-type TrainTimetableNext struct {
-	TrainTimetableID     string `gorm:"primary_key"`
-	ID                   int    `gorm:"primary_key;type:int"`
-	TrainTimetableSameAs string
+// TrainTimetableMasterNext struct
+type TrainTimetableMasterNext struct {
+	ID                     uint   `json:"-"`
+	TrainTimetableMasterID string `json:"-"`
+	TrainTimetableSameAs   string
 }
 
-// TrainTimetablePrevious struct
-type TrainTimetablePrevious struct {
-	TrainTimetableID     string `gorm:"primary_key"`
-	ID                   int    `gorm:"primary_key;type:int"`
-	TrainTimetableSameAs string
+// TrainTimetableMasterPrevious struct
+type TrainTimetableMasterPrevious struct {
+	ID                     uint   `json:"-"`
+	TrainTimetableMasterID string `json:"-"`
+	TrainTimetableSameAs   string
 }
 
-// TrainTimetableViaRailway struct
-type TrainTimetableViaRailway struct {
-	TrainTimetableID string `gorm:"primary_key"`
-	ID               int    `gorm:"primary_key;type:int"`
-	RailwaySameAs    string
+// TrainTimetableMasterTrainName struct
+type TrainTimetableMasterTrainName struct {
+	ID                     uint   `json:"-"`
+	TrainTimetableMasterID string `json:"-"`
+	TrainNameJa            string
+	TrainNameEn            string
 }
 
-// TrainTimetableViaStation struct
-type TrainTimetableViaStation struct {
-	TrainTimetableID string `gorm:"primary_key"`
-	ID               int    `gorm:"primary_key;type:int"`
-	StationSameAs    string
+// TrainTimetableMasterViaRailway struct
+type TrainTimetableMasterViaRailway struct {
+	ID                     uint   `json:"-"`
+	TrainTimetableMasterID string `json:"-"`
+	RailwaySameAs          string
 }
 
-// TrainType struct
-type TrainType struct {
-	ID               string
-	SameAs           string `gorm:"not null;unique"`
-	Context          string
-	Type             string
-	Date             *time.Time `gorm:"type:datetime"`
+// TrainTimetableMasterViaStation struct
+type TrainTimetableMasterViaStation struct {
+	ID                     uint   `json:"-"`
+	TrainTimetableMasterID string `json:"-"`
+	StationSameAs          string
+}
+
+// TrainTypeMaster struct
+type TrainTypeMaster struct {
+	Base
 	Title            string
 	OperatorSameAs   string
 	Operator         OperatorMaster `gorm:"foreignkey:SameAs;association_foreignkey:OperatorSameAs"`
