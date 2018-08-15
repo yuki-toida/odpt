@@ -11,6 +11,10 @@
           <td>{{ data.SameAs }}</td>
         </tr>
         <tr>
+          <th>StationSameAs</th>
+          <td>{{ data.StationSameAs }}</td>
+        </tr>
+        <tr>
           <th>カレンダー</th>
           <td>{{ data.Calendar.Title }}</td>
         </tr>
@@ -46,12 +50,11 @@ export default {
   async asyncData(context) {
     const url = `/train/stationTimetables/${context.params.sameAs}`
     const { data, error } = await context.app.$axios.$get(url)
-    return { data: data, error: error }
-  },
-  mounted: function() {
-    if (this.error) {
-      this.$toast.error(this.error)
+    if (error) {
+      context.error({ message: error })
+      return
     }
+    return { data: data }
   },
   methods: {
     stationTimetableObjectPath(id) {

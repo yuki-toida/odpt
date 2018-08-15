@@ -180,7 +180,7 @@ type StationTimetableMaster struct {
 	RailwaySameAs       string              `json:"-"`
 	RailwayTitleJa      string              `json:"-"`
 	RailwayTitleEn      string              `json:"-"`
-	Station             string
+	StationSameAs       string
 	StationTitleJa      string `json:"-"`
 	StationTitleEn      string `json:"-"`
 	Objects             []StationTimetableMasterObject
@@ -201,6 +201,8 @@ type StationTimetableMasterObject struct {
 	PlatformNameEn           string `json:"-"`
 	PlatformNumber           string `json:"-"`
 	TrainSameAs              string
+	TrainNumber              string
+	TrainOwner               string
 	TrainTypeSameAs          string          `json:"-"`
 	TrainType                TrainTypeMaster `gorm:"foreignkey:SameAs;association_foreignkey:TrainTypeSameAs"`
 	DestinationStations      []StationTimetableMasterObjectDestinationStation
@@ -264,9 +266,17 @@ type TrainTimetableMaster struct {
 	RailwaySameAs       string              `json:"-"`
 	TrainSameAs         string
 	TrainNumber         string
-	TrainOwner          string
+	TrainOwner          string          `json:"-"`
 	TrainTypeSameAs     string          `json:"-"`
 	TrainType           TrainTypeMaster `gorm:"foreignkey:SameAs;association_foreignkey:TrainTypeSameAs"`
+	Objects             []TrainTimetableMasterObject
+	DestinationStations []TrainTimetableMasterDestinationStation
+	OriginStations      []TrainTimetableMasterOriginStation
+	Nexts               []TrainTimetableMasterNext
+	Previous            []TrainTimetableMasterPrevious
+	TrainNames          []TrainTimetableMasterTrainName `json:"-"`
+	ViaRailways         []TrainTimetableMasterViaRailway
+	ViaStations         []TrainTimetableMasterViaStation `json:"-"`
 }
 
 // TrainTimetableMasterObject struct

@@ -11,7 +11,10 @@
             <nuxt-link class="nav-link" to="/train/railways">鉄道 <span class="sr-only">(current)</span></nuxt-link>
           </li>
           <li class="nav-item active">
-            <nuxt-link class="nav-link" to="/train/trains">列車</nuxt-link>
+            <nuxt-link class="nav-link" to="/train/trains">列車位置情報</nuxt-link>
+          </li>
+          <li class="nav-item active">
+            <nuxt-link class="nav-link" to="/train/trainInformations">列車運行情報</nuxt-link>
           </li>
         </ul>
       </div>

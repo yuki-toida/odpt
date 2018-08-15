@@ -82,6 +82,9 @@ func (u *UseCase) GetStationTimetableMaster(sameAs string) (master.StationTimeta
 		Preload("Calendar").
 		Preload("RailDirection").
 		Preload("Objects").
+		// Preload("Objects", func(db *gorm.DB) *gorm.DB {
+		// 	return db.Order("departure_time ASC")
+		// }).
 		Where(&master.StationTimetableMaster{Base: master.Base{SameAs: sameAs}}).
 		First(&row).
 		Error
@@ -126,6 +129,53 @@ func (u *UseCase) GetTrain(sameAs string) (tran.TrainTran, error) {
 		Preload("DestinationStations").
 		Preload("OriginStations").
 		Where(&tran.TrainTran{Base: tran.Base{SameAs: sameAs}}).
+		First(&row).
+		Error
+
+	return row, err
+}
+
+// GetTrainTimetable func
+func (u *UseCase) GetTrainTimetable(trainSameAs string) (master.TrainTimetableMaster, error) {
+	var row master.TrainTimetableMaster
+	err := u.Repository.DB.
+		Preload("RailDirection").
+		Preload("Objects").
+		Preload("DestinationStations").
+		Preload("OriginStations").
+		Preload("Nexts").
+		Preload("Previous").
+		Preload("TrainNames").
+		Preload("ViaRailways").
+		Preload("ViaStations").
+		Where(&master.TrainTimetableMaster{TrainSameAs: trainSameAs}).
+		First(&row).
+		Error
+
+	return row, err
+}
+
+// GetTrainInformations func
+func (u *UseCase) GetTrainInformations() []tran.TrainInformationTran {
+	var rows []tran.TrainInformationTran
+	u.Repository.DB.
+		Preload("Railway").
+		Preload("StationFrom").
+		Preload("StationTo").
+		Find(&rows)
+
+	return rows
+}
+
+// GetTrainInformation func
+func (u *UseCase) GetTrainInformation(sameAs string) (tran.TrainInformationTran, error) {
+	var row tran.TrainInformationTran
+	err := u.Repository.DB.
+		Preload("Railway").
+		Preload("StationFrom").
+		Preload("StationTo").
+		Preload("Railways").
+		Where(&tran.TrainInformationTran{Base: tran.Base{SameAs: sameAs}}).
 		First(&row).
 		Error
 

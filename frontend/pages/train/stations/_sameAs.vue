@@ -61,7 +61,7 @@
           <th>{{ index + 1 }}</th>
           <td>
             <nuxt-link v-if="obj.Railway" :to="railwayPath(obj.Railway.SameAs)" class="nav-link">
-              {{ obj.Railway.RailwayTitleJa }}({{ obj.Railway.RailwayTitleEn }})
+              {{ obj.Railway.RailwayTitleJa }} ({{ obj.Railway.RailwayTitleEn }})
             </nuxt-link>
           </td>
           <td>{{ obj.RailwaySameAs }}</td>
@@ -112,12 +112,11 @@ export default {
   async asyncData(context) {
     const url = `/train/stations/${context.params.sameAs}`
     const { data, error } = await context.app.$axios.$get(url)
-    return { data: data, error: error }
-  },
-  mounted: function() {
-    if (this.error) {
-      this.$toast.error(this.error)
+    if (error) {
+      context.error({ message: error })
+      return
     }
+    return { data: data }
   },
   methods: {
     railwayPath(sameAs) {

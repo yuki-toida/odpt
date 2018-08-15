@@ -77,3 +77,39 @@ type TrainTranViaStation struct {
 	TrainTranID   string `json:"-"`
 	StationSameAs string
 }
+
+// TrainInformationTran struct
+type TrainInformationTran struct {
+	Base
+	OperatorSameAs           string
+	RailwaySameAs            string
+	Railway                  master.RailwayMaster `gorm:"foreignkey:SameAs;association_foreignkey:RailwaySameAs"`
+	ResumeEstimate           string
+	StationFromSameAs        string
+	StationFrom              master.StationMaster `gorm:"foreignkey:SameAs;association_foreignkey:StationFromSameAs"`
+	StationToSameAs          string
+	StationTo                master.StationMaster `gorm:"foreignkey:SameAs;association_foreignkey:StationToSameAs"`
+	TimeOfOrigin             *time.Time           `gorm:"type:datetime"`
+	TrainInformationAreaJa   string
+	TrainInformationAreaEn   string
+	TrainInformationCauseJa  string
+	TrainInformationCauseEn  string
+	TrainInformationKindJa   string
+	TrainInformationKindEn   string
+	TrainInformationLineJa   string
+	TrainInformationLineEn   string
+	TrainInformationRangeJa  string
+	TrainInformationRangeEn  string
+	TrainInformationStatusJa string
+	TrainInformationStatusEn string
+	TrainInformationTextJa   string
+	TrainInformationTextEn   string
+	Railways                 []TrainInformationTranRailway
+}
+
+// TrainInformationTranRailway struct
+type TrainInformationTranRailway struct {
+	ID                     uint   `json:"-"`
+	TrainInformationTranID string `json:"-"`
+	RailwaySameAs          string
+}

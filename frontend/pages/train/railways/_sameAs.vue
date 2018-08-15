@@ -62,12 +62,11 @@ export default {
   async asyncData(context) {
     const url = `/train/railways/${context.params.sameAs}`
     const { data, error } = await context.app.$axios.$get(url)
-    return { data: data, error: error }
-  },
-  mounted: function() {
-    if (this.error) {
-      this.$toast.error(this.error)
+    if (error) {
+      context.error({ message: error })
+      return
     }
+    return { data: data }
   },
   methods: {
     path(sameAs) {

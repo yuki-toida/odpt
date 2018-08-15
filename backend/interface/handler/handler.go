@@ -86,3 +86,23 @@ func (h *Handler) GetTrain(c *gin.Context) {
 	data, err := train.NewUseCase(h.registry.Repository).GetTrain(sameAs)
 	handle(c, data, err)
 }
+
+// GetTrainTimetable func
+func (h *Handler) GetTrainTimetable(c *gin.Context) {
+	trainSameAs := c.Param("trainSameAs")
+	data, err := train.NewUseCase(h.registry.Repository).GetTrainTimetable(trainSameAs)
+	handle(c, data, err)
+}
+
+// GetTrainInformations func
+func (h *Handler) GetTrainInformations(c *gin.Context) {
+	data := train.NewUseCase(h.registry.Repository).GetTrainInformations()
+	handle(c, data, nil)
+}
+
+// GetTrainInformation func
+func (h *Handler) GetTrainInformation(c *gin.Context) {
+	sameAs := c.Param("sameAs")
+	data, err := train.NewUseCase(h.registry.Repository).GetTrainInformation(sameAs)
+	handle(c, data, err)
+}

@@ -3,17 +3,15 @@ package main
 import (
 	"net/http"
 
-	"github.com/yuki-toida/refodpt/backend/domain/model/tran"
-
-	_ "github.com/jinzhu/gorm/dialects/mysql"
-
 	"github.com/bamzi/jobrunner"
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 	"github.com/jinzhu/gorm"
+	_ "github.com/jinzhu/gorm/dialects/mysql"
 
 	"github.com/yuki-toida/refodpt/backend/config"
 	"github.com/yuki-toida/refodpt/backend/domain/model/master"
+	"github.com/yuki-toida/refodpt/backend/domain/model/tran"
 	"github.com/yuki-toida/refodpt/backend/infrastructure/repository"
 	"github.com/yuki-toida/refodpt/backend/interface/handler"
 	"github.com/yuki-toida/refodpt/backend/interface/job/importer"
@@ -72,11 +70,11 @@ func main() {
 		tran.TrainTranTrainName{},
 		tran.TrainTranViaRailway{},
 		tran.TrainTranViaStation{},
+		tran.TrainInformationTran{},
+		tran.TrainInformationTranRailway{},
 	)
 
-	cr := repository.NewRepository(db)
-
-	registry := registry.NewRegistry(cr)
+	registry := registry.NewRegistry(repository.NewRepository(db))
 	handler := handler.NewHandler(registry)
 
 	i := importer.NewImporter(registry)
@@ -84,26 +82,13 @@ func main() {
 	// jobrunner.Start()
 	// jobrunner.Schedule("@every 1m", importer.NewImporter(registry))
 
-	// ch := make(chan int, 2)
-	// wg := sync.WaitGroup{}
-
-	// for i := 0; i < 10; i++ {
-	// 	ch <- 1
-	// 	wg.Add(1)
-	// 	go func(s string) {
-	// 		log.Println("Hello", s)
-	// 		time.Sleep(time.Second) //コピペして実行する時はスリープ入れると理解しやすい
-	// 		<-ch
-	// 		wg.Done()
-	// 	}("World" + strconv.Itoa(i))
-	// }
-	// wg.Wait()
-
 	router := gin.Default()
 	router.Use(cors.Default())
 
+	router.GET("/", func(c *gin.Context) { c.String(http.StatusOK, "OK") })
 	router.GET("/healthz", func(c *gin.Context) { c.String(http.StatusOK, "OK") })
 	router.GET("/jobrunner", func(c *gin.Context) { c.JSON(http.StatusOK, jobrunner.StatusJson()) })
+
 	train := router.Group("/train")
 	{
 		train.GET("/railways", func(c *gin.Context) { handler.GetRailwayMasters(c) })
@@ -114,6 +99,9 @@ func main() {
 		train.GET("/stationTimetableObjects/:id", func(c *gin.Context) { handler.GetStationTimetableObjectMaster(c) })
 		train.GET("/trains", func(c *gin.Context) { handler.GetTrains(c) })
 		train.GET("/trains/:sameAs", func(c *gin.Context) { handler.GetTrain(c) })
+		train.GET("/trainTimetables/:trainSameAs", func(c *gin.Context) { handler.GetTrainTimetable(c) })
+		train.GET("/trainInformations", func(c *gin.Context) { handler.GetTrainInformations(c) })
+		train.GET("/trainInformations/:sameAs", func(c *gin.Context) { handler.GetTrainInformation(c) })
 	}
 
 	router.Run(":" + config.Config.Server.Port)

@@ -33,17 +33,18 @@ func NewImporter(r *registry.Registry) *Importer {
 // Run func
 func (i Importer) Run() {
 	result := testing.Benchmark(func(b *testing.B) {
-		i.calendar()
-		i.operator()
-		i.passengerSurvey()
-		i.railDirection()
-		i.railway()
-		i.railwayFare()
-		i.station()
+		// i.calendar()
+		// i.operator()
+		// i.passengerSurvey()
+		// i.railDirection()
+		// i.railway()
+		// i.railwayFare()
+		// i.station()
 		// i.stationTimetable()
-		i.train()
-		i.trainTimetable()
-		i.trainType()
+		// i.train()
+		// i.trainInformation()
+		// i.trainTimetable()
+		// i.trainType()
 	})
 	fmt.Printf("%#v\n", result)
 }

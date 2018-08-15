@@ -93,6 +93,13 @@ func (u *UseCase) GetTrains() ([]raw.Train, error) {
 	return results, err
 }
 
+// GetTrainInformations func
+func (u *UseCase) GetTrainInformations() ([]raw.TrainInformation, error) {
+	results := []raw.TrainInformation{}
+	err := handle("odpt:TrainInformation", &results)
+	return results, err
+}
+
 // GetTrainTimetables func
 func (u *UseCase) GetTrainTimetables() ([]raw.TrainTimetable, error) {
 	results := []raw.TrainTimetable{}

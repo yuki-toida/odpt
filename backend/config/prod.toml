@@ -1,5 +1,5 @@
 [server]
-host = "https://knowme.theliveup.tv"
+host = "https://odpt.theliveup.tv"
 port = "8080"
 
 [db]

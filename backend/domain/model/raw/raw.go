@@ -155,6 +155,8 @@ type StationTimetableObject struct {
 	OdptPlatformNumber     string   `json:"odpt:platformNumber"`
 	OdptTrain              string   `json:"odpt:train"`
 	OdptTrainName          []Lang   `json:"odpt:trainName"`
+	OdptTrainNumber        string   `json:"odpt:trainNumber"`
+	OdptTrainOwner         string   `json:"odpt:trainOwner"`
 	OdptTrainType          string   `json:"odpt:trainType"`
 	OdptViaRailway         []string `json:"odpt:viaRailway"`
 	OdptViaStation         []string `json:"odpt:viaStation"`
@@ -185,6 +187,30 @@ type Train struct {
 	OdptViaRailway         []string `json:"odpt:viaRailway"`
 	OdptViaStation         []string `json:"odpt:viaStation"`
 	OwlSameAs              string   `json:"owl:sameAs"`
+}
+
+// TrainInformation struct
+type TrainInformation struct {
+	Context                    string   `json:"@context"`
+	ID                         string   `json:"@id"`
+	Type                       string   `json:"@type"`
+	DcDate                     string   `json:"dc:date"`
+	DcValid                    string   `json:"dc:valid"`
+	OdptOperator               string   `json:"odpt:operator"`
+	OdptRailway                string   `json:"odpt:railway"`
+	OdptResumeEstimate         string   `json:"odpt:resumeEstimate"`
+	OdptStationFrom            string   `json:"odpt:stationFrom"`
+	OdptStationTo              string   `json:"odpt:stationTo"`
+	OdptTimeOfOrigin           string   `json:"odpt:timeOfOrigin"`
+	OdptTrainInformationArea   Lang     `json:"odpt:trainInformationArea"`
+	OdptTrainInformationCause  Lang     `json:"odpt:trainInformationCauseTitle"`
+	OdptTrainInformationKind   Lang     `json:"odpt:trainInformationKind"`
+	OdptTrainInformationLine   Lang     `json:"odpt:trainInformationLineTitle"`
+	OdptTrainInformationRange  Lang     `json:"odpt:trainInformationRange"`
+	OdptTrainInformationStatus Lang     `json:"odpt:trainInformationStatus"`
+	OdptTrainInformationText   Lang     `json:"odpt:trainInformationText"`
+	OdptRailways               []string `json:"odpt:transferRailways"`
+	OwlSameAs                  string   `json:"owl:sameAs"`
 }
 
 // TrainTimetable struct
