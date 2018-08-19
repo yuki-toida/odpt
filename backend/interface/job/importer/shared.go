@@ -25,7 +25,7 @@ func (i Importer) calendar() {
 
 func (i Importer) createCalendar(calendar interface{}) {
 	v, _ := calendar.(raw.Calendar)
-	i.r.DB.Create(&master.CalendarMaster{
+	i.db.Create(&master.CalendarMaster{
 		Base: master.Base{
 			ID:      v.ID,
 			SameAs:  v.OwlSameAs,
@@ -40,7 +40,7 @@ func (i Importer) createCalendar(calendar interface{}) {
 	})
 
 	for _, day := range v.OdptDay {
-		i.r.DB.Create(&master.CalendarMasterDay{
+		i.db.Create(&master.CalendarMasterDay{
 			CalendarMasterID: v.ID,
 			Day:              day,
 		})
@@ -56,7 +56,7 @@ func (i Importer) operator() {
 	i.truncate("operator_masters")
 
 	for _, v := range operators {
-		i.r.DB.Create(&master.OperatorMaster{
+		i.db.Create(&master.OperatorMaster{
 			Base: master.Base{
 				ID:      v.ID,
 				SameAs:  v.OwlSameAs,

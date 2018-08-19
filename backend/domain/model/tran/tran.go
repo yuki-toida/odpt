@@ -6,7 +6,6 @@ import (
 	"github.com/yuki-toida/refodpt/backend/domain/model/master"
 )
 
-// Base struct
 type Base struct {
 	ID      string
 	SameAs  string     `gorm:"not null;unique"`
@@ -16,7 +15,6 @@ type Base struct {
 	Valid   *time.Time `gorm:"type:datetime" json:"-"`
 }
 
-// TrainTran struct
 type TrainTran struct {
 	Base
 	CarComposition      int
@@ -42,21 +40,18 @@ type TrainTran struct {
 	ViaStations         []TrainTranViaStation `json:"-"`
 }
 
-// TrainTranDestinationStation struct
 type TrainTranDestinationStation struct {
 	ID            uint   `json:"-"`
 	TrainTranID   string `json:"-"`
 	StationSameAs string
 }
 
-// TrainTranOriginStation struct
 type TrainTranOriginStation struct {
 	ID            uint   `json:"-"`
 	TrainTranID   string `json:"-"`
 	StationSameAs string
 }
 
-// TrainTranTrainName struct
 type TrainTranTrainName struct {
 	ID          uint   `json:"-"`
 	TrainTranID string `json:"-"`
@@ -64,21 +59,18 @@ type TrainTranTrainName struct {
 	TrainNameEn string
 }
 
-// TrainTranViaRailway struct
 type TrainTranViaRailway struct {
 	ID            uint   `json:"-"`
 	TrainTranID   string `json:"-"`
 	RailwaySameAs string
 }
 
-// TrainTranViaStation struct
 type TrainTranViaStation struct {
 	ID            uint   `json:"-"`
 	TrainTranID   string `json:"-"`
 	StationSameAs string
 }
 
-// TrainInformationTran struct
 type TrainInformationTran struct {
 	Base
 	OperatorSameAs           string
@@ -107,7 +99,6 @@ type TrainInformationTran struct {
 	Railways                 []TrainInformationTranRailway
 }
 
-// TrainInformationTranRailway struct
 type TrainInformationTranRailway struct {
 	ID                     uint   `json:"-"`
 	TrainInformationTranID string `json:"-"`

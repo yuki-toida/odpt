@@ -2,16 +2,17 @@ package repository
 
 import (
 	"github.com/jinzhu/gorm"
+	"github.com/yuki-toida/refodpt/backend/infrastructure/cache"
 )
 
-// Repository struct
 type Repository struct {
-	DB *gorm.DB
+	DB    *gorm.DB
+	Cache *cache.Cache
 }
 
-// NewRepository func
-func NewRepository(db *gorm.DB) *Repository {
+func NewRepository(db *gorm.DB, c *cache.Cache) *Repository {
 	return &Repository{
-		DB: db,
+		DB:    db,
+		Cache: c,
 	}
 }

@@ -1,12 +1,10 @@
 package raw
 
-// Lang struct
 type Lang struct {
 	Ja string `json:"ja"`
 	En string `json:"en"`
 }
 
-// Calendar struct
 type Calendar struct {
 	Context           string   `json:"@context"`
 	ID                string   `json:"@id"`
@@ -19,7 +17,6 @@ type Calendar struct {
 	OwlSameAs         string   `json:"owl:sameAs"`
 }
 
-// Operator struct
 type Operator struct {
 	Context           string `json:"@context"`
 	ID                string `json:"@id"`
@@ -30,7 +27,6 @@ type Operator struct {
 	OwlSameAs         string `json:"owl:sameAs"`
 }
 
-// PassengerSurvey struct
 type PassengerSurvey struct {
 	Context                   string                  `json:"@context"`
 	ID                        string                  `json:"@id"`
@@ -43,13 +39,11 @@ type PassengerSurvey struct {
 	OwlSameAs                 string                  `json:"owl:sameAs"`
 }
 
-// PassengerSurveyObject struct
 type PassengerSurveyObject struct {
 	OdptPassengerJourneys int `json:"odpt:passengerJourneys"`
 	OdptSurveyYear        int `json:"odpt:surveyYear"`
 }
 
-// RailDirection struct
 type RailDirection struct {
 	Context                string `json:"@context"`
 	ID                     string `json:"@id"`
@@ -61,7 +55,6 @@ type RailDirection struct {
 	OwlSameAs              string `json:"owl:sameAs"`
 }
 
-// Railway struct
 type Railway struct {
 	Context          string         `json:"@context"`
 	ID               string         `json:"@id"`
@@ -78,14 +71,12 @@ type Railway struct {
 	UgRegion         string         `json:"ug:region"`
 }
 
-// StationOrder struct
 type StationOrder struct {
 	OdptIndex        int    `json:"odpt:index"`
 	OdptStation      string `json:"odpt:station"`
 	OdptStationTitle Lang   `json:"odpt:stationTitle"`
 }
 
-// RailwayFare struct
 type RailwayFare struct {
 	Context             string `json:"@context"`
 	ID                  string `json:"@id"`
@@ -102,7 +93,6 @@ type RailwayFare struct {
 	OwlSameAs           string `json:"owl:sameAs"`
 }
 
-// Station struct
 type Station struct {
 	Context               string   `json:"@context"`
 	ID                    string   `json:"@id"`
@@ -123,7 +113,6 @@ type Station struct {
 	UgRegion              string   `json:"ug:region"`
 }
 
-// StationTimetable struct
 type StationTimetable struct {
 	Context                    string                   `json:"@context"`
 	ID                         string                   `json:"@id"`
@@ -141,7 +130,6 @@ type StationTimetable struct {
 	OwlSameAs                  string                   `json:"owl:sameAs"`
 }
 
-// StationTimetableObject struct
 type StationTimetableObject struct {
 	OdptArrivalTime        string   `json:"odpt:arrivalTime"`
 	OdptCarComposition     int      `json:"odpt:carComposition"`
@@ -162,7 +150,6 @@ type StationTimetableObject struct {
 	OdptViaStation         []string `json:"odpt:viaStation"`
 }
 
-// Train struct
 type Train struct {
 	Context                string   `json:"@context"`
 	ID                     string   `json:"@id"`
@@ -189,7 +176,6 @@ type Train struct {
 	OwlSameAs              string   `json:"owl:sameAs"`
 }
 
-// TrainInformation struct
 type TrainInformation struct {
 	Context                    string   `json:"@context"`
 	ID                         string   `json:"@id"`
@@ -213,7 +199,6 @@ type TrainInformation struct {
 	OwlSameAs                  string   `json:"owl:sameAs"`
 }
 
-// TrainTimetable struct
 type TrainTimetable struct {
 	Context                    string                 `json:"@context"`
 	ID                         string                 `json:"@id"`
@@ -239,7 +224,6 @@ type TrainTimetable struct {
 	OwlSameAs                  string                 `json:"owl:sameAs"`
 }
 
-// TrainTimetableObject struct
 type TrainTimetableObject struct {
 	OdptArrivalStation   string `json:"odpt:arrivalStation"`
 	OdptArrivalTime      string `json:"odpt:arrivalTime"`
@@ -250,7 +234,6 @@ type TrainTimetableObject struct {
 	OdptPlatformNumber   string `json:"odpt:platformNumber"`
 }
 
-// TrainType struct
 type TrainType struct {
 	Context            string `json:"@context"`
 	ID                 string `json:"@id"`

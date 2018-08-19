@@ -8,13 +8,11 @@ import (
 	"github.com/yuki-toida/refodpt/backend/config"
 )
 
-// Client struct
 type Client struct {
 	BaseURL     string
 	ConsumerKey string
 }
 
-// NewOdptClient func
 func NewOdptClient() *Client {
 	return &Client{
 		BaseURL:     config.Config.OdptURL,
@@ -22,12 +20,10 @@ func NewOdptClient() *Client {
 	}
 }
 
-// Get func
 func (c *Client) Get(path string, target interface{}) error {
 	return c.GetBy(path, target, map[string]string{})
 }
 
-// GetBy func
 func (c *Client) GetBy(path string, target interface{}, args map[string]string) error {
 	values := url.Values{}
 	values.Add("acl:consumerKey", c.ConsumerKey)

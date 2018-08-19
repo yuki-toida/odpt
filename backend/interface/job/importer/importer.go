@@ -6,31 +6,28 @@ import (
 	"testing"
 	"time"
 
+	"github.com/jinzhu/gorm"
 	"github.com/yuki-toida/refodpt/backend/config"
-	"github.com/yuki-toida/refodpt/backend/infrastructure/repository"
 	"github.com/yuki-toida/refodpt/backend/interface/registry"
 	"github.com/yuki-toida/refodpt/backend/usecase/raw"
 )
 
 const timeFormat = "2006-01-02T15:04:05-07:00"
 
-// Importer struct
 type Importer struct {
 	now time.Time
 	uc  *raw.UseCase
-	r   *repository.Repository
+	db  *gorm.DB
 }
 
-// NewImporter func
 func NewImporter(r *registry.Registry) *Importer {
 	return &Importer{
 		now: time.Now(),
 		uc:  raw.NewUseCase(),
-		r:   r.Repository,
+		db:  r.Repository.DB,
 	}
 }
 
-// Run func
 func (i Importer) Run() {
 	result := testing.Benchmark(func(b *testing.B) {
 		// i.calendar()
@@ -50,7 +47,7 @@ func (i Importer) Run() {
 }
 
 func (i Importer) truncate(tableName string) {
-	i.r.DB.Exec("TRUNCATE TABLE " + tableName)
+	i.db.Exec("TRUNCATE TABLE " + tableName)
 }
 
 func parseDate(date string) *time.Time {

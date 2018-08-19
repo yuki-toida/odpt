@@ -2,7 +2,6 @@ package master
 
 import "time"
 
-// Base struct
 type Base struct {
 	ID      string
 	SameAs  string     `gorm:"not null;unique"`
@@ -11,7 +10,6 @@ type Base struct {
 	Date    *time.Time `gorm:"type:datetime" json:"-"`
 }
 
-// CalendarMaster struct
 type CalendarMaster struct {
 	Base
 	Title           string
@@ -21,14 +19,12 @@ type CalendarMaster struct {
 	Days            []CalendarMasterDay
 }
 
-// CalendarMasterDay struct
 type CalendarMasterDay struct {
 	ID               uint   `json:"-"`
 	CalendarMasterID string `json:"-"`
 	Day              string
 }
 
-// OperatorMaster struct
 type OperatorMaster struct {
 	Base
 	Title           string
@@ -36,7 +32,6 @@ type OperatorMaster struct {
 	OperatorTitleEn string
 }
 
-// PassengerSurveyMaster struct
 type PassengerSurveyMaster struct {
 	Base
 	OperatorSameAs string         `json:"-"`
@@ -46,7 +41,6 @@ type PassengerSurveyMaster struct {
 	Objects        []PassengerSurveyMasterObject
 }
 
-// PassengerSurveyMasterRailway struct
 type PassengerSurveyMasterRailway struct {
 	ID                      uint   `json:"-"`
 	PassengerSurveyMasterID string `json:"-"`
@@ -54,7 +48,6 @@ type PassengerSurveyMasterRailway struct {
 	Railway                 RailwayMaster `gorm:"foreignkey:SameAs;association_foreignkey:RailwaySameAs"`
 }
 
-// PassengerSurveyMasterStation struct
 type PassengerSurveyMasterStation struct {
 	ID                      uint   `json:"-"`
 	PassengerSurveyMasterID string `json:"-"`
@@ -62,7 +55,6 @@ type PassengerSurveyMasterStation struct {
 	Station                 StationMaster `gorm:"foreignkey:SameAs;association_foreignkey:StationSameAs"`
 }
 
-// PassengerSurveyMasterObject struct
 type PassengerSurveyMasterObject struct {
 	ID                      uint   `json:"-"`
 	PassengerSurveyMasterID string `json:"-"`
@@ -70,7 +62,6 @@ type PassengerSurveyMasterObject struct {
 	SurveyYear              int
 }
 
-// RailDirectionMaster struct
 type RailDirectionMaster struct {
 	Base
 	Title                string
@@ -78,7 +69,6 @@ type RailDirectionMaster struct {
 	RailDirectionTitleEn string
 }
 
-// RailwayMaster struct
 type RailwayMaster struct {
 	Base
 	Title          string
@@ -93,7 +83,6 @@ type RailwayMaster struct {
 	StationOrders  []RailwayMasterStationOrder
 }
 
-// RailwayMasterStationOrder struct
 type RailwayMasterStationOrder struct {
 	ID              uint   `json:"-"`
 	RailwayMasterID string `json:"-"`
@@ -103,7 +92,6 @@ type RailwayMasterStationOrder struct {
 	StationTitleEn  string
 }
 
-// RailwayFareMaster struct
 type RailwayFareMaster struct {
 	Base
 	OperatorSameAs    string         `json:"-"`
@@ -117,7 +105,6 @@ type RailwayFareMaster struct {
 	TicketType        string
 }
 
-// StationMaster struct
 type StationMaster struct {
 	Base
 	Title              string
@@ -137,7 +124,6 @@ type StationMaster struct {
 	Timetables         []StationMasterTimetable
 }
 
-// StationMasterConnectingRailway struct
 type StationMasterConnectingRailway struct {
 	ID              uint   `json:"-"`
 	StationMasterID string `json:"-"`
@@ -145,21 +131,18 @@ type StationMasterConnectingRailway struct {
 	Railway         *RailwayMaster `gorm:"foreignkey:SameAs;association_foreignkey:RailwaySameAs"`
 }
 
-// StationMasterExit struct
 type StationMasterExit struct {
 	ID              uint   `json:"-"`
 	StationMasterID string `json:"-"`
 	Exit            string
 }
 
-// StationMasterPassengerSurvey struct
 type StationMasterPassengerSurvey struct {
 	ID                    uint   `json:"-"`
 	StationMasterID       string `json:"-"`
 	PassengerSurveySameAs string
 }
 
-// StationMasterTimetable struct
 type StationMasterTimetable struct {
 	ID                     uint   `json:"-"`
 	StationMasterID        string `json:"-"`
@@ -167,7 +150,6 @@ type StationMasterTimetable struct {
 	StationTimetable       StationTimetableMaster `gorm:"foreignkey:SameAs;association_foreignkey:StationTimetableSameAs"`
 }
 
-// StationTimetableMaster struct
 type StationTimetableMaster struct {
 	Base
 	CalendarSameAs      string              `json:"-"`
@@ -186,7 +168,6 @@ type StationTimetableMaster struct {
 	Objects             []StationTimetableMasterObject
 }
 
-// StationTimetableMasterObject struct
 type StationTimetableMasterObject struct {
 	ID                       int
 	StationTimetableMasterID string `json:"-"`
@@ -203,16 +184,15 @@ type StationTimetableMasterObject struct {
 	TrainSameAs              string
 	TrainNumber              string
 	TrainOwner               string
-	TrainTypeSameAs          string          `json:"-"`
-	TrainType                TrainTypeMaster `gorm:"foreignkey:SameAs;association_foreignkey:TrainTypeSameAs"`
-	DestinationStations      []StationTimetableMasterObjectDestinationStation
-	OriginStations           []StationTimetableMasterObjectOriginStation `json:"-"`
+	TrainTypeSameAs          string                                           `json:"-"`
+	TrainType                TrainTypeMaster                                  `gorm:"foreignkey:SameAs;association_foreignkey:TrainTypeSameAs"`
+	DestinationStations      []StationTimetableMasterObjectDestinationStation `gorm:"foreignkey:StationTimetableMasterObjectID"`
+	OriginStations           []StationTimetableMasterObjectOriginStation      `json:"-"`
 	TrainNames               []StationTimetableMasterObjectTrainName
 	ViaRailways              []StationTimetableMasterObjectViaRailway
 	ViaStations              []StationTimetableMasterObjectViaStation `json:"-"`
 }
 
-// StationTimetableMasterObjectDestinationStation struct
 type StationTimetableMasterObjectDestinationStation struct {
 	ID                             uint   `json:"-"`
 	StationTimetableMasterID       string `json:"-"`
@@ -220,7 +200,6 @@ type StationTimetableMasterObjectDestinationStation struct {
 	StationSameAs                  string
 }
 
-// StationTimetableMasterObjectOriginStation struct
 type StationTimetableMasterObjectOriginStation struct {
 	ID                             uint   `json:"-"`
 	StationTimetableMasterID       string `json:"-"`
@@ -228,7 +207,6 @@ type StationTimetableMasterObjectOriginStation struct {
 	StationSameAs                  string
 }
 
-// StationTimetableMasterObjectTrainName struct
 type StationTimetableMasterObjectTrainName struct {
 	ID                             uint   `json:"-"`
 	StationTimetableMasterID       string `json:"-"`
@@ -237,7 +215,6 @@ type StationTimetableMasterObjectTrainName struct {
 	TrainNameEn                    string
 }
 
-// StationTimetableMasterObjectViaRailway struct
 type StationTimetableMasterObjectViaRailway struct {
 	ID                             uint   `json:"-"`
 	StationTimetableMasterID       string `json:"-"`
@@ -245,7 +222,6 @@ type StationTimetableMasterObjectViaRailway struct {
 	RailwaySameAs                  string
 }
 
-// StationTimetableMasterObjectViaStation struct
 type StationTimetableMasterObjectViaStation struct {
 	ID                             uint   `json:"-"`
 	StationTimetableMasterID       string `json:"-"`
@@ -253,7 +229,6 @@ type StationTimetableMasterObjectViaStation struct {
 	StationSameAs                  string
 }
 
-// TrainTimetableMaster struct
 type TrainTimetableMaster struct {
 	Base
 	CalendarSameAs      string
@@ -279,7 +254,6 @@ type TrainTimetableMaster struct {
 	ViaStations         []TrainTimetableMasterViaStation `json:"-"`
 }
 
-// TrainTimetableMasterObject struct
 type TrainTimetableMasterObject struct {
 	ID                     uint   `json:"-"`
 	TrainTimetableMasterID string `json:"-"`
@@ -294,35 +268,30 @@ type TrainTimetableMasterObject struct {
 	PlatformNumber         string `json:"-"`
 }
 
-// TrainTimetableMasterDestinationStation struct
 type TrainTimetableMasterDestinationStation struct {
 	ID                     uint   `json:"-"`
 	TrainTimetableMasterID string `json:"-"`
 	StationSameAs          string
 }
 
-// TrainTimetableMasterOriginStation struct
 type TrainTimetableMasterOriginStation struct {
 	ID                     uint   `json:"-"`
 	TrainTimetableMasterID string `json:"-"`
 	StationSameAs          string
 }
 
-// TrainTimetableMasterNext struct
 type TrainTimetableMasterNext struct {
 	ID                     uint   `json:"-"`
 	TrainTimetableMasterID string `json:"-"`
 	TrainTimetableSameAs   string
 }
 
-// TrainTimetableMasterPrevious struct
 type TrainTimetableMasterPrevious struct {
 	ID                     uint   `json:"-"`
 	TrainTimetableMasterID string `json:"-"`
 	TrainTimetableSameAs   string
 }
 
-// TrainTimetableMasterTrainName struct
 type TrainTimetableMasterTrainName struct {
 	ID                     uint   `json:"-"`
 	TrainTimetableMasterID string `json:"-"`
@@ -330,21 +299,18 @@ type TrainTimetableMasterTrainName struct {
 	TrainNameEn            string
 }
 
-// TrainTimetableMasterViaRailway struct
 type TrainTimetableMasterViaRailway struct {
 	ID                     uint   `json:"-"`
 	TrainTimetableMasterID string `json:"-"`
 	RailwaySameAs          string
 }
 
-// TrainTimetableMasterViaStation struct
 type TrainTimetableMasterViaStation struct {
 	ID                     uint   `json:"-"`
 	TrainTimetableMasterID string `json:"-"`
 	StationSameAs          string
 }
 
-// TrainTypeMaster struct
 type TrainTypeMaster struct {
 	Base
 	Title            string

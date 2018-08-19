@@ -30,7 +30,7 @@ func (i Importer) passengerSurvey() {
 
 func (i Importer) createPassengerSurvey(passengerSurvey interface{}) {
 	v, _ := passengerSurvey.(raw.PassengerSurvey)
-	i.r.DB.Create(&master.PassengerSurveyMaster{
+	i.db.Create(&master.PassengerSurveyMaster{
 		Base: master.Base{
 			ID:      v.ID,
 			SameAs:  v.OwlSameAs,
@@ -42,20 +42,20 @@ func (i Importer) createPassengerSurvey(passengerSurvey interface{}) {
 	})
 
 	for _, object := range v.OdptPassengerSurveyObject {
-		i.r.DB.Create(&master.PassengerSurveyMasterObject{
+		i.db.Create(&master.PassengerSurveyMasterObject{
 			PassengerSurveyMasterID: v.ID,
 			PassengerJourneys:       object.OdptPassengerJourneys,
 			SurveyYear:              object.OdptSurveyYear,
 		})
 	}
 	for _, railway := range v.OdptRailway {
-		i.r.DB.Create(&master.PassengerSurveyMasterRailway{
+		i.db.Create(&master.PassengerSurveyMasterRailway{
 			PassengerSurveyMasterID: v.ID,
 			RailwaySameAs:           railway,
 		})
 	}
 	for _, station := range v.OdptStation {
-		i.r.DB.Create(&master.PassengerSurveyMasterStation{
+		i.db.Create(&master.PassengerSurveyMasterStation{
 			PassengerSurveyMasterID: v.ID,
 			StationSameAs:           station,
 		})
@@ -71,7 +71,7 @@ func (i Importer) railDirection() {
 	i.truncate("rail_direction_masters")
 
 	for _, v := range railDirections {
-		i.r.DB.Create(&master.RailDirectionMaster{
+		i.db.Create(&master.RailDirectionMaster{
 			Base: master.Base{
 				ID:      v.ID,
 				SameAs:  v.OwlSameAs,
@@ -104,7 +104,7 @@ func (i Importer) railway() {
 
 func (i Importer) createRailway(railway interface{}) {
 	v, _ := railway.(raw.Railway)
-	i.r.DB.Create(&master.RailwayMaster{
+	i.db.Create(&master.RailwayMaster{
 		Base: master.Base{
 			ID:      v.ID,
 			SameAs:  v.OwlSameAs,
@@ -123,7 +123,7 @@ func (i Importer) createRailway(railway interface{}) {
 	})
 
 	for _, order := range v.OdptStationOrder {
-		i.r.DB.Create(&master.RailwayMasterStationOrder{
+		i.db.Create(&master.RailwayMasterStationOrder{
 			RailwayMasterID: v.ID,
 			Index:           order.OdptIndex,
 			StationSameAs:   order.OdptStation,
@@ -150,7 +150,7 @@ func (i Importer) railwayFare() {
 
 func (i Importer) createRailwayFare(railwayFare interface{}) {
 	v, _ := railwayFare.(raw.RailwayFare)
-	i.r.DB.Create(&master.RailwayFareMaster{
+	i.db.Create(&master.RailwayFareMaster{
 		Base: master.Base{
 			ID:      v.ID,
 			SameAs:  v.OwlSameAs,
@@ -190,7 +190,7 @@ func (i Importer) station() {
 
 func (i Importer) createStation(station interface{}) {
 	v, _ := station.(raw.Station)
-	i.r.DB.Create(&master.StationMaster{
+	i.db.Create(&master.StationMaster{
 		Base: master.Base{
 			ID:      v.ID,
 			SameAs:  v.OwlSameAs,
@@ -210,25 +210,25 @@ func (i Importer) createStation(station interface{}) {
 	})
 
 	for _, x := range v.OdptConnectingRailway {
-		i.r.DB.Create(&master.StationMasterConnectingRailway{
+		i.db.Create(&master.StationMasterConnectingRailway{
 			StationMasterID: v.ID,
 			RailwaySameAs:   x,
 		})
 	}
 	for _, x := range v.OdptExit {
-		i.r.DB.Create(&master.StationMasterExit{
+		i.db.Create(&master.StationMasterExit{
 			StationMasterID: v.ID,
 			Exit:            x,
 		})
 	}
 	for _, x := range v.OdptPassengerSurvey {
-		i.r.DB.Create(&master.StationMasterPassengerSurvey{
+		i.db.Create(&master.StationMasterPassengerSurvey{
 			StationMasterID:       v.ID,
 			PassengerSurveySameAs: x,
 		})
 	}
 	for _, x := range v.OdptStationTimetable {
-		i.r.DB.Create(&master.StationMasterTimetable{
+		i.db.Create(&master.StationMasterTimetable{
 			StationMasterID:        v.ID,
 			StationTimetableSameAs: x,
 		})
@@ -251,7 +251,7 @@ func (i Importer) stationTimetable() {
 
 	for _, v := range stationTimetables {
 		if v.ID != "" {
-			i.r.DB.Create(&master.StationTimetableMaster{
+			i.db.Create(&master.StationTimetableMaster{
 				Base: master.Base{ID: v.ID,
 					SameAs:  v.OwlSameAs,
 					Context: v.Context,
@@ -289,7 +289,7 @@ func (i Importer) stationTimetable() {
 
 func (i Importer) createStationObject(id string, index int, object raw.StationTimetableObject) {
 	index++
-	i.r.DB.Create(&master.StationTimetableMasterObject{
+	i.db.Create(&master.StationTimetableMasterObject{
 		StationTimetableMasterID: id,
 		ArrivalTime:              object.OdptArrivalTime,
 		CarComposition:           object.OdptCarComposition,
@@ -308,21 +308,21 @@ func (i Importer) createStationObject(id string, index int, object raw.StationTi
 	})
 
 	for _, x := range object.OdptDestinationStation {
-		i.r.DB.Create(&master.StationTimetableMasterObjectDestinationStation{
+		i.db.Create(&master.StationTimetableMasterObjectDestinationStation{
 			StationTimetableMasterID:       id,
 			StationTimetableMasterObjectID: index,
 			StationSameAs:                  x,
 		})
 	}
 	for _, x := range object.OdptOriginStation {
-		i.r.DB.Create(&master.StationTimetableMasterObjectOriginStation{
+		i.db.Create(&master.StationTimetableMasterObjectOriginStation{
 			StationTimetableMasterID:       id,
 			StationTimetableMasterObjectID: index,
 			StationSameAs:                  x,
 		})
 	}
 	for _, x := range object.OdptTrainName {
-		i.r.DB.Create(&master.StationTimetableMasterObjectTrainName{
+		i.db.Create(&master.StationTimetableMasterObjectTrainName{
 			StationTimetableMasterID:       id,
 			StationTimetableMasterObjectID: index,
 			TrainNameJa:                    x.Ja,
@@ -330,14 +330,14 @@ func (i Importer) createStationObject(id string, index int, object raw.StationTi
 		})
 	}
 	for _, x := range object.OdptViaRailway {
-		i.r.DB.Create(&master.StationTimetableMasterObjectViaRailway{
+		i.db.Create(&master.StationTimetableMasterObjectViaRailway{
 			StationTimetableMasterID:       id,
 			StationTimetableMasterObjectID: index,
 			RailwaySameAs:                  x,
 		})
 	}
 	for _, x := range object.OdptViaStation {
-		i.r.DB.Create(&master.StationTimetableMasterObjectViaStation{
+		i.db.Create(&master.StationTimetableMasterObjectViaStation{
 			StationTimetableMasterID:       id,
 			StationTimetableMasterObjectID: index,
 			StationSameAs:                  x,
@@ -368,7 +368,7 @@ func (i Importer) train() {
 
 func (i Importer) createTrain(train interface{}) {
 	v, _ := train.(raw.Train)
-	i.r.DB.Create(&tran.TrainTran{
+	i.db.Create(&tran.TrainTran{
 		Base: tran.Base{
 			ID:      v.ID,
 			SameAs:  v.OwlSameAs,
@@ -393,32 +393,32 @@ func (i Importer) createTrain(train interface{}) {
 	})
 
 	for _, x := range v.OdptDestinationStation {
-		i.r.DB.Create(&tran.TrainTranDestinationStation{
+		i.db.Create(&tran.TrainTranDestinationStation{
 			TrainTranID:   v.ID,
 			StationSameAs: x,
 		})
 	}
 	for _, x := range v.OdptOriginStation {
-		i.r.DB.Create(&tran.TrainTranOriginStation{
+		i.db.Create(&tran.TrainTranOriginStation{
 			TrainTranID:   v.ID,
 			StationSameAs: x,
 		})
 	}
 	for _, x := range v.OdptTrainName {
-		i.r.DB.Create(&tran.TrainTranTrainName{
+		i.db.Create(&tran.TrainTranTrainName{
 			TrainTranID: v.ID,
 			TrainNameJa: x.Ja,
 			TrainNameEn: x.En,
 		})
 	}
 	for _, x := range v.OdptViaRailway {
-		i.r.DB.Create(&tran.TrainTranViaRailway{
+		i.db.Create(&tran.TrainTranViaRailway{
 			TrainTranID:   v.ID,
 			RailwaySameAs: x,
 		})
 	}
 	for _, x := range v.OdptViaStation {
-		i.r.DB.Create(&tran.TrainTranViaStation{
+		i.db.Create(&tran.TrainTranViaStation{
 			TrainTranID:   v.ID,
 			StationSameAs: x,
 		})
@@ -443,7 +443,7 @@ func (i Importer) trainInformation() {
 
 func (i Importer) createTrainInformation(trainInformation interface{}) {
 	v, _ := trainInformation.(raw.TrainInformation)
-	i.r.DB.Create(&tran.TrainInformationTran{
+	i.db.Create(&tran.TrainInformationTran{
 		Base: tran.Base{
 			ID:      v.ID,
 			SameAs:  v.OwlSameAs,
@@ -475,7 +475,7 @@ func (i Importer) createTrainInformation(trainInformation interface{}) {
 	})
 
 	for _, x := range v.OdptRailways {
-		i.r.DB.Create(&tran.TrainInformationTranRailway{
+		i.db.Create(&tran.TrainInformationTranRailway{
 			TrainInformationTranID: v.ID,
 			RailwaySameAs:          x,
 		})
@@ -507,7 +507,7 @@ func (i Importer) trainTimetable() {
 
 func (i Importer) createTrainTimetable(trainTimetable interface{}) {
 	v, _ := trainTimetable.(raw.TrainTimetable)
-	i.r.DB.Create(&master.TrainTimetableMaster{
+	i.db.Create(&master.TrainTimetableMaster{
 		Base: master.Base{
 			ID:      v.ID,
 			SameAs:  v.OwlSameAs,
@@ -529,7 +529,7 @@ func (i Importer) createTrainTimetable(trainTimetable interface{}) {
 	})
 
 	for _, x := range v.OdptTrainTimetableObject {
-		i.r.DB.Create(&master.TrainTimetableMasterObject{
+		i.db.Create(&master.TrainTimetableMasterObject{
 			TrainTimetableMasterID: v.ID,
 			ArrivalStation:         x.OdptArrivalStation,
 			ArrivalTime:            x.OdptArrivalTime,
@@ -543,44 +543,44 @@ func (i Importer) createTrainTimetable(trainTimetable interface{}) {
 		})
 	}
 	for _, x := range v.OdptDestinationStation {
-		i.r.DB.Create(&master.TrainTimetableMasterDestinationStation{
+		i.db.Create(&master.TrainTimetableMasterDestinationStation{
 			TrainTimetableMasterID: v.ID,
 			StationSameAs:          x,
 		})
 	}
 	for _, x := range v.OdptOriginStation {
-		i.r.DB.Create(&master.TrainTimetableMasterOriginStation{
+		i.db.Create(&master.TrainTimetableMasterOriginStation{
 			TrainTimetableMasterID: v.ID,
 			StationSameAs:          x,
 		})
 	}
 	for _, x := range v.OdptNextTrainTimetable {
-		i.r.DB.Create(&master.TrainTimetableMasterNext{
+		i.db.Create(&master.TrainTimetableMasterNext{
 			TrainTimetableMasterID: v.ID,
 			TrainTimetableSameAs:   x,
 		})
 	}
 	for _, x := range v.OdptPreviousTrainTimetable {
-		i.r.DB.Create(&master.TrainTimetableMasterPrevious{
+		i.db.Create(&master.TrainTimetableMasterPrevious{
 			TrainTimetableMasterID: v.ID,
 			TrainTimetableSameAs:   x,
 		})
 	}
 	for _, x := range v.OdptTrainName {
-		i.r.DB.Create(&master.TrainTimetableMasterTrainName{
+		i.db.Create(&master.TrainTimetableMasterTrainName{
 			TrainTimetableMasterID: v.ID,
 			TrainNameJa:            x.Ja,
 			TrainNameEn:            x.En,
 		})
 	}
 	for _, x := range v.OdptViaRailway {
-		i.r.DB.Create(&master.TrainTimetableMasterViaRailway{
+		i.db.Create(&master.TrainTimetableMasterViaRailway{
 			TrainTimetableMasterID: v.ID,
 			RailwaySameAs:          x,
 		})
 	}
 	for _, x := range v.OdptViaStation {
-		i.r.DB.Create(&master.TrainTimetableMasterViaStation{
+		i.db.Create(&master.TrainTimetableMasterViaStation{
 			TrainTimetableMasterID: v.ID,
 			StationSameAs:          x,
 		})
@@ -596,7 +596,7 @@ func (i Importer) trainType() {
 	i.truncate("train_type_masters")
 
 	for _, v := range trainTypes {
-		i.r.DB.Create(&master.TrainTypeMaster{
+		i.db.Create(&master.TrainTypeMaster{
 			Base: master.Base{
 				ID:      v.ID,
 				SameAs:  v.OwlSameAs,
