@@ -1,6 +1,8 @@
 package tran
 
 import (
+	"time"
+
 	"github.com/jinzhu/gorm"
 
 	"github.com/yuki-toida/refodpt/backend/domain/model/master"
@@ -19,6 +21,24 @@ func NewUseCase(r *repository.Repository) *UseCase {
 		db:  r.DB,
 		cuc: cache.NewUseCase(r.Cache),
 	}
+}
+
+func (u *UseCase) GetAdminTime() tran.AdminTranTime {
+	var row tran.AdminTranTime
+	u.db.First(&row, 1)
+	return row
+}
+
+func (u *UseCase) UpdateTranAt(date time.Time) {
+	var row = u.GetAdminTime()
+	row.TranAt = &date
+	u.db.Save(&row)
+}
+
+func (u *UseCase) UpdateMasterAt(date time.Time) {
+	var row = u.GetAdminTime()
+	row.MasterAt = &date
+	u.db.Save(&row)
 }
 
 func (u *UseCase) GetStationTimetableMaster(sameAs string) (master.StationTimetableMaster, error) {

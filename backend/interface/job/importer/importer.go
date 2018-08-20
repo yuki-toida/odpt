@@ -1,57 +1,56 @@
 package importer
 
 import (
-	"fmt"
 	"sync"
-	"testing"
 	"time"
 
 	"github.com/jinzhu/gorm"
 	"github.com/yuki-toida/refodpt/backend/config"
-	"github.com/yuki-toida/refodpt/backend/interface/registry"
+	"github.com/yuki-toida/refodpt/backend/infrastructure/repository"
 	"github.com/yuki-toida/refodpt/backend/usecase/raw"
+	"github.com/yuki-toida/refodpt/backend/usecase/tran"
 )
 
-const timeFormat = "2006-01-02T15:04:05-07:00"
-
 type Importer struct {
-	now time.Time
-	uc  *raw.UseCase
 	db  *gorm.DB
+	ruc *raw.UseCase
+	tuc *tran.UseCase
 }
 
-func NewImporter(r *registry.Registry) *Importer {
+func NewImporter(r *repository.Repository) *Importer {
 	return &Importer{
-		now: time.Now(),
-		uc:  raw.NewUseCase(),
-		db:  r.Repository.DB,
+		db:  r.DB,
+		ruc: raw.NewUseCase(),
+		tuc: tran.NewUseCase(r),
 	}
 }
 
 func (i Importer) Run() {
-	result := testing.Benchmark(func(b *testing.B) {
-		// i.calendar()
-		// i.operator()
-		// i.passengerSurvey()
-		// i.railDirection()
-		// i.railway()
-		// i.railwayFare()
-		// i.station()
-		// i.stationTimetable()
-		// i.train()
-		// i.trainInformation()
-		// i.trainTimetable()
-		// i.trainType()
-	})
-	fmt.Printf("%#v\n", result)
+	// i.train()
+	// i.trainInformation()
+	i.tuc.UpdateTranAt(time.Now())
+}
+
+func (i Importer) Master() {
+	// i.calendar()
+	// i.operator()
+	// i.passengerSurvey()
+	// i.railDirection()
+	// i.railway()
+	// i.railwayFare()
+	// i.station()
+	// i.stationTimetable()
+	// i.trainTimetable()
+	// i.trainType()
+	i.tuc.UpdateMasterAt(time.Now())
 }
 
 func (i Importer) truncate(tableName string) {
 	i.db.Exec("TRUNCATE TABLE " + tableName)
 }
 
-func parseDate(date string) *time.Time {
-	t, err := time.Parse(timeFormat, date)
+func parse(date string) *time.Time {
+	t, err := time.Parse("2006-01-02T15:04:05-07:00", date)
 	if err != nil {
 		return nil
 	}

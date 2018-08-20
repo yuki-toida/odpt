@@ -11,7 +11,7 @@ import (
 )
 
 func (i Importer) passengerSurvey() {
-	passengerSurveys, err := i.uc.GetPassengerSurveys()
+	passengerSurveys, err := i.ruc.GetPassengerSurveys()
 	if err != nil {
 		panic(err)
 	}
@@ -36,7 +36,7 @@ func (i Importer) createPassengerSurvey(passengerSurvey interface{}) {
 			SameAs:  v.OwlSameAs,
 			Context: v.Context,
 			Type:    v.Type,
-			Date:    parseDate(v.DcDate),
+			Date:    parse(v.DcDate),
 		},
 		OperatorSameAs: v.OdptOperator,
 	})
@@ -63,7 +63,7 @@ func (i Importer) createPassengerSurvey(passengerSurvey interface{}) {
 }
 
 func (i Importer) railDirection() {
-	railDirections, err := i.uc.GetRailDirections()
+	railDirections, err := i.ruc.GetRailDirections()
 	if err != nil {
 		panic(err)
 	}
@@ -77,7 +77,7 @@ func (i Importer) railDirection() {
 				SameAs:  v.OwlSameAs,
 				Context: v.Context,
 				Type:    v.Type,
-				Date:    parseDate(v.DcDate),
+				Date:    parse(v.DcDate),
 			},
 			Title:                v.DcTitle,
 			RailDirectionTitleJa: v.OdptRailDirectionTitle.Ja,
@@ -87,7 +87,7 @@ func (i Importer) railDirection() {
 }
 
 func (i Importer) railway() {
-	railways, err := i.uc.GetRailways()
+	railways, err := i.ruc.GetRailways()
 	if err != nil {
 		panic(err)
 	}
@@ -110,7 +110,7 @@ func (i Importer) createRailway(railway interface{}) {
 			SameAs:  v.OwlSameAs,
 			Context: v.Context,
 			Type:    v.Type,
-			Date:    parseDate(v.DcDate),
+			Date:    parse(v.DcDate),
 		},
 		Title:          v.DcTitle,
 		Color:          v.OdptColor,
@@ -134,7 +134,7 @@ func (i Importer) createRailway(railway interface{}) {
 }
 
 func (i Importer) railwayFare() {
-	railwayFares, err := i.uc.GetRailwayFares()
+	railwayFares, err := i.ruc.GetRailwayFares()
 	if err != nil {
 		panic(err)
 	}
@@ -156,7 +156,7 @@ func (i Importer) createRailwayFare(railwayFare interface{}) {
 			SameAs:  v.OwlSameAs,
 			Context: v.Context,
 			Type:    v.Type,
-			Date:    parseDate(v.DcDate),
+			Date:    parse(v.DcDate),
 		},
 		OperatorSameAs:    v.OdptOperator,
 		FromStationSameAs: v.OdptFromStation,
@@ -170,7 +170,7 @@ func (i Importer) createRailwayFare(railwayFare interface{}) {
 }
 
 func (i Importer) station() {
-	stations, err := i.uc.GetStations()
+	stations, err := i.ruc.GetStations()
 	if err != nil {
 		panic(err)
 	}
@@ -196,7 +196,7 @@ func (i Importer) createStation(station interface{}) {
 			SameAs:  v.OwlSameAs,
 			Context: v.Context,
 			Type:    v.Type,
-			Date:    parseDate(v.DcDate),
+			Date:    parse(v.DcDate),
 		},
 		Title:          v.DcTitle,
 		Lat:            v.GeoLat,
@@ -236,7 +236,7 @@ func (i Importer) createStation(station interface{}) {
 }
 
 func (i Importer) stationTimetable() {
-	stationTimetables, err := i.uc.GetStationTimetables()
+	stationTimetables, err := i.ruc.GetStationTimetables()
 	if err != nil {
 		panic(err)
 	}
@@ -256,7 +256,7 @@ func (i Importer) stationTimetable() {
 					SameAs:  v.OwlSameAs,
 					Context: v.Context,
 					Type:    v.Type,
-					Date:    parseDate(v.DcDate),
+					Date:    parse(v.DcDate),
 				},
 				CalendarSameAs:      v.OdptCalendar,
 				NoteJa:              v.OdptNote.Ja,
@@ -347,7 +347,7 @@ func (i Importer) createStationObject(id string, index int, object raw.StationTi
 }
 
 func (i Importer) train() {
-	trains, err := i.uc.GetTrains()
+	trains, err := i.ruc.GetTrains()
 	if err != nil {
 		panic(err)
 	}
@@ -374,8 +374,8 @@ func (i Importer) createTrain(train interface{}) {
 			SameAs:  v.OwlSameAs,
 			Context: v.Context,
 			Type:    v.Type,
-			Date:    parseDate(v.DcDate),
-			Valid:   parseDate(v.DcValid),
+			Date:    parse(v.DcDate),
+			Valid:   parse(v.DcValid),
 		},
 		CarComposition:      v.OdptCarComposition,
 		Delay:               v.OdptDelay,
@@ -426,7 +426,7 @@ func (i Importer) createTrain(train interface{}) {
 }
 
 func (i Importer) trainInformation() {
-	trainInformations, err := i.uc.GetTrainInformations()
+	trainInformations, err := i.ruc.GetTrainInformations()
 	if err != nil {
 		panic(err)
 	}
@@ -449,15 +449,15 @@ func (i Importer) createTrainInformation(trainInformation interface{}) {
 			SameAs:  v.OwlSameAs,
 			Context: v.Context,
 			Type:    v.Type,
-			Date:    parseDate(v.DcDate),
-			Valid:   parseDate(v.DcValid),
+			Date:    parse(v.DcDate),
+			Valid:   parse(v.DcValid),
 		},
 		OperatorSameAs:           v.OdptOperator,
 		RailwaySameAs:            v.OdptRailway,
 		ResumeEstimate:           v.OdptResumeEstimate,
 		StationFromSameAs:        v.OdptStationFrom,
 		StationToSameAs:          v.OdptStationTo,
-		TimeOfOrigin:             parseDate(v.OdptTimeOfOrigin),
+		TimeOfOrigin:             parse(v.OdptTimeOfOrigin),
 		TrainInformationAreaJa:   v.OdptTrainInformationArea.Ja,
 		TrainInformationAreaEn:   v.OdptTrainInformationArea.En,
 		TrainInformationCauseJa:  v.OdptTrainInformationCause.Ja,
@@ -483,7 +483,7 @@ func (i Importer) createTrainInformation(trainInformation interface{}) {
 }
 
 func (i Importer) trainTimetable() {
-	trainTimetables, err := i.uc.GetTrainTimetables()
+	trainTimetables, err := i.ruc.GetTrainTimetables()
 	if err != nil {
 		panic(err)
 	}
@@ -513,7 +513,7 @@ func (i Importer) createTrainTimetable(trainTimetable interface{}) {
 			SameAs:  v.OwlSameAs,
 			Context: v.Context,
 			Type:    v.Type,
-			Date:    parseDate(v.DcDate),
+			Date:    parse(v.DcDate),
 		},
 		CalendarSameAs:      v.OdptCalendar,
 		NeedExtraFee:        v.OdptNeedExtraFee,
@@ -588,7 +588,7 @@ func (i Importer) createTrainTimetable(trainTimetable interface{}) {
 }
 
 func (i Importer) trainType() {
-	trainTypes, err := i.uc.GetTrainTypes()
+	trainTypes, err := i.ruc.GetTrainTypes()
 	if err != nil {
 		panic(err)
 	}
@@ -602,7 +602,7 @@ func (i Importer) trainType() {
 				SameAs:  v.OwlSameAs,
 				Context: v.Context,
 				Type:    v.Type,
-				Date:    parseDate(v.DcDate),
+				Date:    parse(v.DcDate),
 			},
 			Title:            v.DcTitle,
 			OperatorSameAs:   v.OdptOperator,

@@ -6,6 +6,12 @@ import (
 	"github.com/yuki-toida/refodpt/backend/domain/model/master"
 )
 
+type AdminTranTime struct {
+	ID       uint       `json:"-"`
+	MasterAt *time.Time `gorm:"type:datetime"`
+	TranAt   *time.Time `gorm:"type:datetime"`
+}
+
 type Base struct {
 	ID      string
 	SameAs  string     `gorm:"not null;unique"`

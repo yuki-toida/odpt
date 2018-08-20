@@ -8,7 +8,7 @@ import (
 )
 
 func (i Importer) calendar() {
-	calendars, err := i.uc.GetCalendars()
+	calendars, err := i.ruc.GetCalendars()
 	if err != nil {
 		panic(err)
 	}
@@ -31,7 +31,7 @@ func (i Importer) createCalendar(calendar interface{}) {
 			SameAs:  v.OwlSameAs,
 			Context: v.Context,
 			Type:    v.Type,
-			Date:    parseDate(v.DcDate),
+			Date:    parse(v.DcDate),
 		},
 		Title:           v.DcTitle,
 		CalendarTitleJa: v.OdptCalendarTitle.Ja,
@@ -48,7 +48,7 @@ func (i Importer) createCalendar(calendar interface{}) {
 }
 
 func (i Importer) operator() {
-	operators, err := i.uc.GetOperators()
+	operators, err := i.ruc.GetOperators()
 	if err != nil {
 		panic(err)
 	}
@@ -62,7 +62,7 @@ func (i Importer) operator() {
 				SameAs:  v.OwlSameAs,
 				Context: v.Context,
 				Type:    v.Type,
-				Date:    parseDate(v.DcDate),
+				Date:    parse(v.DcDate),
 			},
 			Title:           v.DcTitle,
 			OperatorTitleJa: v.OdptOperatorTitle.Ja,

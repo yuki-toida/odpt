@@ -21,13 +21,15 @@ var Config struct {
 		Host string `toml:"host"`
 		Port string `toml:"port"`
 		Name string `toml:"name"`
+		User string `toml:"user"`
+		Pass string `toml:"pass"`
 		Pool int    `toml:"pool"`
 	}
 }
 
 // Init func
-func Init() {
-	if err := godotenv.Load(); err != nil {
+func Init(configPath, envPath string) {
+	if err := godotenv.Load(envPath); err != nil {
 		panic(err)
 	}
 
@@ -35,7 +37,8 @@ func Init() {
 	if v := os.Getenv("ENV"); v != "" {
 		env = v
 	}
-	_, err := toml.DecodeFile("config/"+env+".toml", &Config)
+
+	_, err := toml.DecodeFile(configPath+"config."+env+".toml", &Config)
 	if err != nil {
 		panic(err)
 	}
@@ -43,5 +46,6 @@ func Init() {
 	Config.Env = env
 	Config.ConsumerKey = os.Getenv("CONSUMER_KEY")
 	Config.OdptURL = "https://api-tokyochallenge.odpt.org/api/v4"
+
 	fmt.Printf("[Config] %+v\n", Config)
 }
