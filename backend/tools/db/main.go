@@ -7,8 +7,8 @@ import (
 	"github.com/yuki-toida/refodpt/backend/domain/model/tran"
 	"github.com/yuki-toida/refodpt/backend/infrastructure/cache"
 	"github.com/yuki-toida/refodpt/backend/infrastructure/db"
+	"github.com/yuki-toida/refodpt/backend/infrastructure/job/importer"
 	"github.com/yuki-toida/refodpt/backend/infrastructure/repository"
-	"github.com/yuki-toida/refodpt/backend/interface/job/importer"
 )
 
 func init() {
@@ -64,6 +64,6 @@ func main() {
 	)
 
 	cc := cache.NewCache()
-	r := repository.NewRepository(db, cc)
-	importer.NewImporter(r).Master()
+	repo := repository.NewRepository(db, cc)
+	importer.NewImporter(repo).Master()
 }

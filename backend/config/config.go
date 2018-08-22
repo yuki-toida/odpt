@@ -13,17 +13,21 @@ var Config struct {
 	Env         string
 	ConsumerKey string
 	OdptURL     string
-	Server      struct {
-		Host string `toml:"host"`
-		Port string `toml:"port"`
-	}
-	DB struct {
+	DB          struct {
 		Host string `toml:"host"`
 		Port string `toml:"port"`
 		Name string `toml:"name"`
 		User string `toml:"user"`
 		Pass string `toml:"pass"`
 		Pool int    `toml:"pool"`
+	}
+	AdminServer struct {
+		Host string `toml:"host"`
+		Port string `toml:"port"`
+	}
+	AppServer struct {
+		Host string `toml:"host"`
+		Port string `toml:"port"`
 	}
 }
 

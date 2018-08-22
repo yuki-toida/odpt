@@ -13,9 +13,16 @@ const (
 	Calendars = iota
 	Operators
 	PassengerSurveys
+	RailDirection
 	Railways
 	Stations
-	StationTimetables
+	StationTimetableObjectTrainNames
+	StationTimetableObjectViaRailways
+	TrainTimetableDestinationStations
+	TrainTimetableOriginStations
+	TrainTimetableNexts
+	TrainTimetablePrevious
+	TrainTypes
 )
 
 type Cache struct {
@@ -56,6 +63,10 @@ func (c *Cache) Init(db *gorm.DB) {
 		Find(&passengerSurveys)
 	c.Set(PassengerSurveys, passengerSurveys)
 
+	var railDirection []master.RailDirectionMaster
+	db.Find(&railDirection)
+	c.Set(RailDirection, railDirection)
+
 	var railways []master.RailwayMaster
 	db.Preload("Operator").Preload("StationOrders").Find(&railways)
 	c.Set(Railways, railways)
@@ -67,12 +78,30 @@ func (c *Cache) Init(db *gorm.DB) {
 		Preload("ConnectingRailways.Railway").
 		Preload("PassengerSurveys").
 		Preload("Timetables").
-		Preload("Timetables.StationTimetable").
 		Find(&stations)
 	c.Set(Stations, stations)
 
-	var stationTimetables []master.StationTimetableMaster
-	db.Preload("Calendar").Preload("RailDirection").Find(&stationTimetables)
-	c.Set(StationTimetables, stationTimetables)
+	var stationTimetableObjectTrainNames []master.StationTimetableMasterObjectTrainName
+	db.Find(&stationTimetableObjectTrainNames)
+	c.Set(StationTimetableObjectTrainNames, stationTimetableObjectTrainNames)
 
+	var trainTimetableDestinationStations []master.TrainTimetableMasterDestinationStation
+	db.Preload("Station").Find(&trainTimetableDestinationStations)
+	c.Set(TrainTimetableDestinationStations, trainTimetableDestinationStations)
+
+	var trainTimetableOriginStations []master.TrainTimetableMasterOriginStation
+	db.Preload("Station").Find(&trainTimetableOriginStations)
+	c.Set(TrainTimetableOriginStations, trainTimetableOriginStations)
+
+	var trainTimetableNexts []master.TrainTimetableMasterNext
+	db.Find(&trainTimetableNexts)
+	c.Set(TrainTimetableNexts, trainTimetableNexts)
+
+	var trainTimetablePrevious []master.TrainTimetableMasterPrevious
+	db.Find(&trainTimetablePrevious)
+	c.Set(TrainTimetablePrevious, trainTimetablePrevious)
+
+	var trainTypes []master.TrainTypeMaster
+	db.Preload("Operator").Find(&trainTypes)
+	c.Set(TrainTypes, trainTypes)
 }

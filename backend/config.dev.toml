@@ -1,11 +1,15 @@
-[server]
-host = "http://localhost"
-port = "8080"
-
-[db]
+[DB]
 host = "127.0.0.1"
 port = "8306"
 name = "odpt_dev"
 user = "root"
 pass = "zaqroot"
 pool = 50
+
+[AdminServer]
+host = "http://localhost"
+port = "8010"
+
+[AppServer]
+host = "http://localhost"
+port = "8000"

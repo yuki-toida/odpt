@@ -157,14 +157,16 @@ type StationTimetableMaster struct {
 	NoteJa              string              `json:"-"`
 	NoteEn              string              `json:"-"`
 	OperatorSameAs      string              `json:"-"`
+	Operator            OperatorMaster      `gorm:"foreignkey:SameAs;association_foreignkey:OperatorSameAs"`
 	RailDirectionSameAs string              `json:"-"`
 	RailDirection       RailDirectionMaster `gorm:"foreignkey:SameAs;association_foreignkey:RailDirectionSameAs"`
 	RailwaySameAs       string              `json:"-"`
 	RailwayTitleJa      string              `json:"-"`
 	RailwayTitleEn      string              `json:"-"`
 	StationSameAs       string
-	StationTitleJa      string `json:"-"`
-	StationTitleEn      string `json:"-"`
+	Station             StationMaster `gorm:"foreignkey:SameAs;association_foreignkey:StationSameAs"`
+	StationTitleJa      string        `json:"-"`
+	StationTitleEn      string        `json:"-"`
 	Objects             []StationTimetableMasterObject
 }
 
@@ -183,11 +185,11 @@ type StationTimetableMasterObject struct {
 	PlatformNumber           string `json:"-"`
 	TrainSameAs              string
 	TrainNumber              string
-	TrainOwner               string
-	TrainTypeSameAs          string                                           `json:"-"`
-	TrainType                TrainTypeMaster                                  `gorm:"foreignkey:SameAs;association_foreignkey:TrainTypeSameAs"`
-	DestinationStations      []StationTimetableMasterObjectDestinationStation `gorm:"foreignkey:StationTimetableMasterObjectID"`
-	OriginStations           []StationTimetableMasterObjectOriginStation      `json:"-"`
+	TrainOwner               string          `json:"-"`
+	TrainTypeSameAs          string          `json:"-"`
+	TrainType                TrainTypeMaster `gorm:"foreignkey:SameAs;association_foreignkey:TrainTypeSameAs"`
+	DestinationStations      []StationTimetableMasterObjectDestinationStation
+	OriginStations           []StationTimetableMasterObjectOriginStation `json:"-"`
 	TrainNames               []StationTimetableMasterObjectTrainName
 	ViaRailways              []StationTimetableMasterObjectViaRailway
 	ViaStations              []StationTimetableMasterObjectViaStation `json:"-"`
@@ -220,6 +222,7 @@ type StationTimetableMasterObjectViaRailway struct {
 	StationTimetableMasterID       string `json:"-"`
 	StationTimetableMasterObjectID int    `json:"-"`
 	RailwaySameAs                  string
+	Railway                        RailwayMaster `gorm:"foreignkey:SameAs;association_foreignkey:RailwaySameAs"`
 }
 
 type StationTimetableMasterObjectViaStation struct {
@@ -232,10 +235,12 @@ type StationTimetableMasterObjectViaStation struct {
 type TrainTimetableMaster struct {
 	Base
 	CalendarSameAs      string
+	Calendar            CalendarMaster      `gorm:"foreignkey:SameAs;association_foreignkey:CalendarSameAs"`
 	NeedExtraFee        bool                `json:"-"`
 	NoteJa              string              `json:"-"`
 	NoteEn              string              `json:"-"`
 	OperatorSameAs      string              `json:"-"`
+	Operator            OperatorMaster      `gorm:"foreignkey:SameAs;association_foreignkey:OperatorSameAs"`
 	RailDirectionSameAs string              `json:"-"`
 	RailDirection       RailDirectionMaster `gorm:"foreignkey:SameAs;association_foreignkey:RailDirectionSameAs"`
 	RailwaySameAs       string              `json:"-"`
@@ -249,8 +254,8 @@ type TrainTimetableMaster struct {
 	OriginStations      []TrainTimetableMasterOriginStation
 	Nexts               []TrainTimetableMasterNext
 	Previous            []TrainTimetableMasterPrevious
-	TrainNames          []TrainTimetableMasterTrainName `json:"-"`
-	ViaRailways         []TrainTimetableMasterViaRailway
+	TrainNames          []TrainTimetableMasterTrainName  `json:"-"`
+	ViaRailways         []TrainTimetableMasterViaRailway `json:"-"`
 	ViaStations         []TrainTimetableMasterViaStation `json:"-"`
 }
 
@@ -269,15 +274,17 @@ type TrainTimetableMasterObject struct {
 }
 
 type TrainTimetableMasterDestinationStation struct {
-	ID                     uint   `json:"-"`
-	TrainTimetableMasterID string `json:"-"`
-	StationSameAs          string
+	ID                     uint          `json:"-"`
+	TrainTimetableMasterID string        `json:"-"`
+	StationSameAs          string        `json:"-"`
+	Station                StationMaster `gorm:"foreignkey:SameAs;association_foreignkey:StationSameAs"`
 }
 
 type TrainTimetableMasterOriginStation struct {
-	ID                     uint   `json:"-"`
-	TrainTimetableMasterID string `json:"-"`
-	StationSameAs          string
+	ID                     uint          `json:"-"`
+	TrainTimetableMasterID string        `json:"-"`
+	StationSameAs          string        `json:"-"`
+	Station                StationMaster `gorm:"foreignkey:SameAs;association_foreignkey:StationSameAs"`
 }
 
 type TrainTimetableMasterNext struct {

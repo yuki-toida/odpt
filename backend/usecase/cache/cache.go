@@ -25,8 +25,26 @@ func (u *UseCase) GetCalendars() []master.CalendarMaster {
 	return u.cache.Get(cache.Calendars).([]master.CalendarMaster)
 }
 
+func (u *UseCase) GetCalendar(sameAs string) (master.CalendarMaster, error) {
+	for _, v := range u.GetCalendars() {
+		if v.SameAs == sameAs {
+			return v, nil
+		}
+	}
+	return master.CalendarMaster{}, notFound()
+}
+
 func (u *UseCase) GetOperators() []master.OperatorMaster {
 	return u.cache.Get(cache.Operators).([]master.OperatorMaster)
+}
+
+func (u *UseCase) GetOperator(sameAs string) (master.OperatorMaster, error) {
+	for _, v := range u.GetOperators() {
+		if v.SameAs == sameAs {
+			return v, nil
+		}
+	}
+	return master.OperatorMaster{}, notFound()
 }
 
 func (u *UseCase) GetPassengerSurveys() []master.PassengerSurveyMaster {
@@ -40,6 +58,19 @@ func (u *UseCase) GetPassengerSurvey(sameAs string) (master.PassengerSurveyMaste
 		}
 	}
 	return master.PassengerSurveyMaster{}, notFound()
+}
+
+func (u *UseCase) GetRailDirections() []master.RailDirectionMaster {
+	return u.cache.Get(cache.RailDirection).([]master.RailDirectionMaster)
+}
+
+func (u *UseCase) GetRailDirection(sameAs string) (master.RailDirectionMaster, error) {
+	for _, v := range u.GetRailDirections() {
+		if v.SameAs == sameAs {
+			return v, nil
+		}
+	}
+	return master.RailDirectionMaster{}, notFound()
 }
 
 func (u *UseCase) GetRailways() []master.RailwayMaster {
@@ -68,6 +99,99 @@ func (u *UseCase) GetStation(sameAs string) (master.StationMaster, error) {
 	return master.StationMaster{}, notFound()
 }
 
-func (u *UseCase) GetStationTimetables() []master.StationTimetableMaster {
-	return u.cache.Get(cache.StationTimetables).([]master.StationTimetableMaster)
+func (u *UseCase) GetStationTimetableObjectTrainNames() []master.StationTimetableMasterObjectTrainName {
+	return u.cache.Get(cache.StationTimetableObjectTrainNames).([]master.StationTimetableMasterObjectTrainName)
+}
+
+func (u *UseCase) GetStationTimetableObjectTrainNamesByObjectID(objectID int) []master.StationTimetableMasterObjectTrainName {
+	rows := []master.StationTimetableMasterObjectTrainName{}
+	for _, v := range u.GetStationTimetableObjectTrainNames() {
+		if v.StationTimetableMasterObjectID == objectID {
+			rows = append(rows, v)
+		}
+	}
+	return rows
+}
+
+func (u *UseCase) GetStationTimetableObjectViaRailways() []master.StationTimetableMasterObjectViaRailway {
+	return u.cache.Get(cache.StationTimetableObjectViaRailways).([]master.StationTimetableMasterObjectViaRailway)
+}
+
+func (u *UseCase) GetStationTimetableObjectViaRailwaysByObjectID(objectID int) []master.StationTimetableMasterObjectViaRailway {
+	rows := []master.StationTimetableMasterObjectViaRailway{}
+	for _, v := range u.GetStationTimetableObjectViaRailways() {
+		if v.StationTimetableMasterObjectID == objectID {
+			rows = append(rows, v)
+		}
+	}
+	return rows
+}
+
+func (u *UseCase) GetTrainTimetableDestinationStations() []master.TrainTimetableMasterDestinationStation {
+	return u.cache.Get(cache.TrainTimetableDestinationStations).([]master.TrainTimetableMasterDestinationStation)
+}
+
+func (u *UseCase) GetTrainTimetableDestinationStationsByID(ID string) []master.TrainTimetableMasterDestinationStation {
+	rows := []master.TrainTimetableMasterDestinationStation{}
+	for _, v := range u.GetTrainTimetableDestinationStations() {
+		if v.TrainTimetableMasterID == ID {
+			rows = append(rows, v)
+		}
+	}
+	return rows
+}
+
+func (u *UseCase) GetTrainTimetableOriginStations() []master.TrainTimetableMasterOriginStation {
+	return u.cache.Get(cache.TrainTimetableOriginStations).([]master.TrainTimetableMasterOriginStation)
+}
+
+func (u *UseCase) GetTrainTimetableOriginStationsByID(ID string) []master.TrainTimetableMasterOriginStation {
+	rows := []master.TrainTimetableMasterOriginStation{}
+	for _, v := range u.GetTrainTimetableOriginStations() {
+		if v.TrainTimetableMasterID == ID {
+			rows = append(rows, v)
+		}
+	}
+	return rows
+}
+
+func (u *UseCase) GetTrainTimetableNexts() []master.TrainTimetableMasterNext {
+	return u.cache.Get(cache.TrainTimetableNexts).([]master.TrainTimetableMasterNext)
+}
+
+func (u *UseCase) GetTrainTimetableNextsByID(ID string) []master.TrainTimetableMasterNext {
+	rows := []master.TrainTimetableMasterNext{}
+	for _, v := range u.GetTrainTimetableNexts() {
+		if v.TrainTimetableMasterID == ID {
+			rows = append(rows, v)
+		}
+	}
+	return rows
+}
+
+func (u *UseCase) GetTrainTimetablePrevious() []master.TrainTimetableMasterPrevious {
+	return u.cache.Get(cache.TrainTimetablePrevious).([]master.TrainTimetableMasterPrevious)
+}
+
+func (u *UseCase) GetTrainTimetablePreviousByID(ID string) []master.TrainTimetableMasterPrevious {
+	rows := []master.TrainTimetableMasterPrevious{}
+	for _, v := range u.GetTrainTimetablePrevious() {
+		if v.TrainTimetableMasterID == ID {
+			rows = append(rows, v)
+		}
+	}
+	return rows
+}
+
+func (u *UseCase) GetTrainTypes() []master.TrainTypeMaster {
+	return u.cache.Get(cache.TrainTypes).([]master.TrainTypeMaster)
+}
+
+func (u *UseCase) GetTrainType(sameAs string) (master.TrainTypeMaster, error) {
+	for _, v := range u.GetTrainTypes() {
+		if v.SameAs == sameAs {
+			return v, nil
+		}
+	}
+	return master.TrainTypeMaster{}, notFound()
 }

@@ -1,7 +1,7 @@
-# Frontend
-frontend/node_modules
-frontend/yarn-error.log
-frontend/.nuxt
+# Admin
+admin/node_modules
+admin/yarn-error.log
+admin/.nuxt
 
 # Backend
 backend/*.exe

@@ -12,7 +12,7 @@ DB=odpt_$ENV
 USER=root
 PASS=zaqroot
 
-# mysql -u $USER -p$PASS -h $HOST -P $PORT -e "DROP DATABASE $DB"
-# mysql -u $USER -p$PASS -h $HOST -P $PORT -e "CREATE DATABASE $DB"
+mysql -u $USER -p$PASS -h $HOST -P $PORT -e "DROP DATABASE $DB"
+mysql -u $USER -p$PASS -h $HOST -P $PORT -e "CREATE DATABASE $DB"
 
 go run main.go

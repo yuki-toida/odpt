@@ -1,11 +1,15 @@
-[server]
-host = "https://odpt.theliveup.tv"
-port = "8080"
-
-[db]
+[DB]
 host = "127.0.0.1"
 port = "3306"
 name = "odpt_prod"
 user = "root"
 pass = "zaqroot"
 pool = 100
+
+[AdminServer]
+host = "https://adminodpt.theliveup.tv"
+port = "8080"
+
+[AppServer]
+host = "https://odpt.theliveup.tv"
+port = "8000"

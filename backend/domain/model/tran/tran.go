@@ -31,14 +31,17 @@ type TrainTran struct {
 	NoteJa              string `json:"-"`
 	NoteEn              string `json:"-"`
 	OperatorSameAs      string
+	Operator            master.OperatorMaster      `gorm:"foreignkey:SameAs;association_foreignkey:OperatorSameAs"`
 	RailDirectionSameAs string                     `json:"-"`
 	RailDirection       master.RailDirectionMaster `gorm:"foreignkey:SameAs;association_foreignkey:RailDirectionSameAs"`
 	RailwaySameAs       string
+	Railway             master.RailwayMaster `gorm:"foreignkey:SameAs;association_foreignkey:RailwaySameAs"`
 	ToStationSameAs     string               `json:"-"`
 	ToStation           master.StationMaster `gorm:"foreignkey:SameAs;association_foreignkey:ToStationSameAs"`
 	TrainNumber         string
 	TrainOwner          string
 	TrainTypeSameAs     string
+	TrainType           master.TrainTypeMaster `gorm:"foreignkey:SameAs;association_foreignkey:TrainTypeSameAs"`
 	DestinationStations []TrainTranDestinationStation
 	OriginStations      []TrainTranOriginStation
 	TrainNames          []TrainTranTrainName  `json:"-"`
@@ -80,6 +83,7 @@ type TrainTranViaStation struct {
 type TrainInformationTran struct {
 	Base
 	OperatorSameAs           string
+	Operator                 master.OperatorMaster `gorm:"foreignkey:SameAs;association_foreignkey:OperatorSameAs"`
 	RailwaySameAs            string
 	Railway                  master.RailwayMaster `gorm:"foreignkey:SameAs;association_foreignkey:RailwaySameAs"`
 	ResumeEstimate           string
@@ -106,7 +110,8 @@ type TrainInformationTran struct {
 }
 
 type TrainInformationTranRailway struct {
-	ID                     uint   `json:"-"`
-	TrainInformationTranID string `json:"-"`
-	RailwaySameAs          string
+	ID                     uint                 `json:"-"`
+	TrainInformationTranID string               `json:"-"`
+	RailwaySameAs          string               `json:"-"`
+	Railway                master.RailwayMaster `gorm:"foreignkey:SameAs;association_foreignkey:RailwaySameAs"`
 }
