@@ -18,8 +18,6 @@ const (
 	Stations
 	StationTimetableObjectTrainNames
 	StationTimetableObjectViaRailways
-	TrainTimetableDestinationStations
-	TrainTimetableOriginStations
 	TrainTimetableNexts
 	TrainTimetablePrevious
 	TrainTypes
@@ -40,8 +38,8 @@ func (c *Cache) Set(key int, value interface{}) {
 }
 
 func (c *Cache) Get(key int) interface{} {
-	results, _ := c.cache.Get(strconv.Itoa(key))
-	return results
+	cached, _ := c.cache.Get(strconv.Itoa(key))
+	return cached
 }
 
 func (c *Cache) Init(db *gorm.DB) {
@@ -84,14 +82,6 @@ func (c *Cache) Init(db *gorm.DB) {
 	var stationTimetableObjectTrainNames []master.StationTimetableMasterObjectTrainName
 	db.Find(&stationTimetableObjectTrainNames)
 	c.Set(StationTimetableObjectTrainNames, stationTimetableObjectTrainNames)
-
-	var trainTimetableDestinationStations []master.TrainTimetableMasterDestinationStation
-	db.Preload("Station").Find(&trainTimetableDestinationStations)
-	c.Set(TrainTimetableDestinationStations, trainTimetableDestinationStations)
-
-	var trainTimetableOriginStations []master.TrainTimetableMasterOriginStation
-	db.Preload("Station").Find(&trainTimetableOriginStations)
-	c.Set(TrainTimetableOriginStations, trainTimetableOriginStations)
 
 	var trainTimetableNexts []master.TrainTimetableMasterNext
 	db.Find(&trainTimetableNexts)

@@ -127,34 +127,6 @@ func (u *UseCase) GetStationTimetableObjectViaRailwaysByObjectID(objectID int) [
 	return rows
 }
 
-func (u *UseCase) GetTrainTimetableDestinationStations() []master.TrainTimetableMasterDestinationStation {
-	return u.cache.Get(cache.TrainTimetableDestinationStations).([]master.TrainTimetableMasterDestinationStation)
-}
-
-func (u *UseCase) GetTrainTimetableDestinationStationsByID(ID string) []master.TrainTimetableMasterDestinationStation {
-	rows := []master.TrainTimetableMasterDestinationStation{}
-	for _, v := range u.GetTrainTimetableDestinationStations() {
-		if v.TrainTimetableMasterID == ID {
-			rows = append(rows, v)
-		}
-	}
-	return rows
-}
-
-func (u *UseCase) GetTrainTimetableOriginStations() []master.TrainTimetableMasterOriginStation {
-	return u.cache.Get(cache.TrainTimetableOriginStations).([]master.TrainTimetableMasterOriginStation)
-}
-
-func (u *UseCase) GetTrainTimetableOriginStationsByID(ID string) []master.TrainTimetableMasterOriginStation {
-	rows := []master.TrainTimetableMasterOriginStation{}
-	for _, v := range u.GetTrainTimetableOriginStations() {
-		if v.TrainTimetableMasterID == ID {
-			rows = append(rows, v)
-		}
-	}
-	return rows
-}
-
 func (u *UseCase) GetTrainTimetableNexts() []master.TrainTimetableMasterNext {
 	return u.cache.Get(cache.TrainTimetableNexts).([]master.TrainTimetableMasterNext)
 }

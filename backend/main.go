@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"net/http"
 	"runtime"
+	"testing"
 
 	"github.com/bamzi/jobrunner"
 	_ "github.com/jinzhu/gorm/dialects/mysql"
@@ -27,11 +28,14 @@ func main() {
 	db.LogMode(true)
 
 	cc := cache.NewCache()
-	cc.Init(db)
+	tr := testing.Benchmark(func(b *testing.B) {
+		cc.Init(db)
+	})
+	fmt.Printf("[Benchmark] %v\n", tr)
 
 	var m runtime.MemStats
 	runtime.ReadMemStats(&m)
-	fmt.Printf("[MemStats] Alloc:%v TotalAlloc:%v HeapAlloc:%v HeapSys:%v", m.Alloc, m.TotalAlloc, m.HeapAlloc, m.HeapSys)
+	fmt.Printf("[MemStats] Alloc:%v TotalAlloc:%v HeapAlloc:%v HeapSys:%v\n", m.Alloc, m.TotalAlloc, m.HeapAlloc, m.HeapSys)
 
 	repo := repository.NewRepository(db, cc)
 	jobrunner.Start()

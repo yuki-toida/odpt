@@ -73,22 +73,26 @@ func (u *UseCase) GetStationTimetableObject(ID int) (master.StationTimetableMast
 
 func (u *UseCase) GetTrainTimetable(trainSameAs string) (master.TrainTimetableMaster, error) {
 	var row master.TrainTimetableMaster
-	err := u.db.Preload("Objects").Where(&master.TrainTimetableMaster{TrainSameAs: trainSameAs}).First(&row).Error
+	err := u.db.
+		Preload("Objects").
+		Preload("DestinationStations").
+		Preload("DestinationStations.Station").
+		Preload("OriginStations").
+		Preload("OriginStations.Station").
+		Where(&master.TrainTimetableMaster{TrainSameAs: trainSameAs}).
+		First(&row).
+		Error
 	if err == nil {
 		calendar, _ := u.cuc.GetCalendar(row.CalendarSameAs)
 		operator, _ := u.cuc.GetOperator(row.OperatorSameAs)
 		railDirection, _ := u.cuc.GetRailDirection(row.RailDirectionSameAs)
 		trainType, _ := u.cuc.GetTrainType(row.TrainTypeSameAs)
-		destinationStations := u.cuc.GetTrainTimetableDestinationStationsByID(row.ID)
-		originStations := u.cuc.GetTrainTimetableOriginStationsByID(row.ID)
 		nexts := u.cuc.GetTrainTimetableNextsByID(row.ID)
 		previous := u.cuc.GetTrainTimetablePreviousByID(row.ID)
 		row.Calendar = calendar
 		row.Operator = operator
 		row.RailDirection = railDirection
 		row.TrainType = trainType
-		row.DestinationStations = destinationStations
-		row.OriginStations = originStations
 		row.Nexts = nexts
 		row.Previous = previous
 	}
