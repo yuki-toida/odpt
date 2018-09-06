@@ -31,7 +31,7 @@ module.exports = {
     '@/assets/scss/app.scss'
   ],
   modules: [
-    ['@nuxtjs/axios', { baseURL: process.env.BASE_URL || 'http://localhost:8010' }],
+    ['@nuxtjs/axios', { baseURL: process.env.BASE_URL }],
     ['bootstrap-vue/nuxt', { css: false }],
     ['@nuxtjs/toast', { position: 'top-center', duration: 5000 }],
   ],

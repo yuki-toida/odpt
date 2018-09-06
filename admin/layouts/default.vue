@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <nav class="navbar navbar-expand-lg">
-      <nuxt-link class="navbar-brand" to="/">Admin</nuxt-link>
+      <nuxt-link class="navbar-brand" to="/">トップ</nuxt-link>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"/>
       </button>

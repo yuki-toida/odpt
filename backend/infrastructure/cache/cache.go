@@ -83,6 +83,10 @@ func (c *Cache) Init(db *gorm.DB) {
 	db.Find(&stationTimetableObjectTrainNames)
 	c.Set(StationTimetableObjectTrainNames, stationTimetableObjectTrainNames)
 
+	var stationTimetableObjectViaRailways []master.StationTimetableMasterObjectViaRailway
+	db.Find(&stationTimetableObjectViaRailways)
+	c.Set(StationTimetableObjectViaRailways, stationTimetableObjectViaRailways)
+
 	var trainTimetableNexts []master.TrainTimetableMasterNext
 	db.Find(&trainTimetableNexts)
 	c.Set(TrainTimetableNexts, trainTimetableNexts)

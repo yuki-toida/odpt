@@ -7,12 +7,16 @@ fi
 
 ENV=$1
 HOST=127.0.0.1
-PORT=8306
 DB=odpt_$ENV
 USER=root
 PASS=zaqroot
 
+PORT=8306
+if [ "$ENV" = "prod" ]; then
+  PORT=5306
+fi
+
 mysql -u $USER -p$PASS -h $HOST -P $PORT -e "DROP DATABASE $DB"
 mysql -u $USER -p$PASS -h $HOST -P $PORT -e "CREATE DATABASE $DB"
 
-go run main.go
+ENV=$ENV go run main.go

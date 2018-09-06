@@ -7,9 +7,7 @@ pass = "zaqroot"
 pool = 50
 
 [AdminServer]
-host = "http://localhost"
 port = "8010"
 
 [AppServer]
-host = "http://localhost"
-port = "8000"
+port = ""

@@ -32,16 +32,16 @@ func (i Importer) Run() {
 }
 
 func (i Importer) Master() {
-	// i.calendar()
-	// i.operator()
-	// i.passengerSurvey()
-	// i.railDirection()
-	// i.railway()
-	// i.railwayFare()
-	// i.station()
-	// i.stationTimetable()
-	// i.trainTimetable()
-	// i.trainType()
+	i.calendar()
+	i.operator()
+	i.passengerSurvey()
+	i.railDirection()
+	i.railway()
+	i.railwayFare()
+	i.station()
+	i.stationTimetable()
+	i.trainTimetable()
+	i.trainType()
 	i.tuc.UpdateMasterAt(time.Now())
 }
 

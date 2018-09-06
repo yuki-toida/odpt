@@ -22,11 +22,9 @@ var Config struct {
 		Pool int    `toml:"pool"`
 	}
 	AdminServer struct {
-		Host string `toml:"host"`
 		Port string `toml:"port"`
 	}
 	AppServer struct {
-		Host string `toml:"host"`
 		Port string `toml:"port"`
 	}
 }
@@ -37,11 +35,7 @@ func Init(configPath, envPath string) {
 		panic(err)
 	}
 
-	env := "dev"
-	if v := os.Getenv("ENV"); v != "" {
-		env = v
-	}
-
+	env := os.Getenv("ENV")
 	_, err := toml.DecodeFile(configPath+"config."+env+".toml", &Config)
 	if err != nil {
 		panic(err)
