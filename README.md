@@ -30,9 +30,9 @@ cd /backend
 sh run.sh
 ```
 
-* Admin
+* Frontend
 
 ```sh
-cd /admin
+cd /frontend
 yarn dev
 ```

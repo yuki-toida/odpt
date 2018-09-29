@@ -1,6 +1,6 @@
 #!/bin/sh
 
-CONTAINER=odpt-api
+CONTAINER=odpt
 REGISTRY=asia.gcr.io/planet-pluto-dev
 
 # イメージタグが指定されているか判定
@@ -17,4 +17,4 @@ else
 fi
 
 # deploy
-kubectl set image deployment/odpt-api-deploy $CONTAINER=$REGISTRY/$IMAGE
+kubectl set image deployment/odpt-deploy $CONTAINER=$REGISTRY/$IMAGE

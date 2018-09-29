@@ -47,19 +47,6 @@ func (u *UseCase) GetOperator(sameAs string) (master.OperatorMaster, error) {
 	return master.OperatorMaster{}, notFound()
 }
 
-func (u *UseCase) GetPassengerSurveys() []master.PassengerSurveyMaster {
-	return u.cache.Get(cache.PassengerSurveys).([]master.PassengerSurveyMaster)
-}
-
-func (u *UseCase) GetPassengerSurvey(sameAs string) (master.PassengerSurveyMaster, error) {
-	for _, v := range u.GetPassengerSurveys() {
-		if v.SameAs == sameAs {
-			return v, nil
-		}
-	}
-	return master.PassengerSurveyMaster{}, notFound()
-}
-
 func (u *UseCase) GetRailDirections() []master.RailDirectionMaster {
 	return u.cache.Get(cache.RailDirection).([]master.RailDirectionMaster)
 }
@@ -86,6 +73,19 @@ func (u *UseCase) GetRailway(sameAs string) (master.RailwayMaster, error) {
 	return master.RailwayMaster{}, notFound()
 }
 
+func (u *UseCase) GetRailwayFares() []master.RailwayFareMaster {
+	return u.cache.Get(cache.RailwayFares).([]master.RailwayFareMaster)
+}
+
+func (u *UseCase) GetRailwayFare(from, to string) (master.RailwayFareMaster, error) {
+	for _, v := range u.GetRailwayFares() {
+		if v.FromStationSameAs == from && v.ToStationSameAs == to {
+			return v, nil
+		}
+	}
+	return master.RailwayFareMaster{}, notFound()
+}
+
 func (u *UseCase) GetStations() []master.StationMaster {
 	return u.cache.Get(cache.Stations).([]master.StationMaster)
 }
@@ -93,6 +93,15 @@ func (u *UseCase) GetStations() []master.StationMaster {
 func (u *UseCase) GetStation(sameAs string) (master.StationMaster, error) {
 	for _, v := range u.GetStations() {
 		if v.SameAs == sameAs {
+			return v, nil
+		}
+	}
+	return master.StationMaster{}, notFound()
+}
+
+func (u *UseCase) GetStationByName(titleJa string) (master.StationMaster, error) {
+	for _, v := range u.GetStations() {
+		if v.StationTitleJa == titleJa {
 			return v, nil
 		}
 	}

@@ -35,7 +35,7 @@ func (h *Handler) GetUpdateTime(c *gin.Context) {
 
 func (h *Handler) GetPassengerSurvey(c *gin.Context) {
 	sameAs := c.Param("sameAs")
-	data, err := cache.NewUseCase(h.r.Cache).GetPassengerSurvey(sameAs)
+	data, err := tran.NewUseCase(h.r).GetPassengerSurvey(sameAs)
 	handle(c, data, err)
 }
 

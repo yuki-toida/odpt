@@ -6,8 +6,5 @@ user = "root"
 pass = "zaqroot"
 pool = 50
 
-[AdminServer]
+[APIServer]
 port = "8010"
-
-[AppServer]
-port = ""

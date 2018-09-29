@@ -21,10 +21,7 @@ var Config struct {
 		Pass string `toml:"pass"`
 		Pool int    `toml:"pool"`
 	}
-	AdminServer struct {
-		Port string `toml:"port"`
-	}
-	AppServer struct {
+	APIServer struct {
 		Port string `toml:"port"`
 	}
 }

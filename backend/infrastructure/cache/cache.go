@@ -12,9 +12,9 @@ import (
 const (
 	Calendars = iota
 	Operators
-	PassengerSurveys
 	RailDirection
 	Railways
+	RailwayFares
 	Stations
 	StationTimetableObjectTrainNames
 	StationTimetableObjectViaRailways
@@ -51,16 +51,6 @@ func (c *Cache) Init(db *gorm.DB) {
 	db.Find(&operators)
 	c.Set(Operators, operators)
 
-	var passengerSurveys []master.PassengerSurveyMaster
-	db.Preload("Operator").
-		Preload("Railways").
-		Preload("Railways.Railway").
-		Preload("Stations").
-		Preload("Stations.Station").
-		Preload("Objects").
-		Find(&passengerSurveys)
-	c.Set(PassengerSurveys, passengerSurveys)
-
 	var railDirection []master.RailDirectionMaster
 	db.Find(&railDirection)
 	c.Set(RailDirection, railDirection)
@@ -68,6 +58,10 @@ func (c *Cache) Init(db *gorm.DB) {
 	var railways []master.RailwayMaster
 	db.Preload("Operator").Preload("StationOrders").Find(&railways)
 	c.Set(Railways, railways)
+
+	var railwayFares []master.RailwayFareMaster
+	db.Find(&railwayFares)
+	c.Set(RailwayFares, railwayFares)
 
 	var stations []master.StationMaster
 	db.Preload("Operator").

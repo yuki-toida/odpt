@@ -41,6 +41,20 @@ func (u *UseCase) UpdateMasterAt(date time.Time) {
 	u.db.Save(&row)
 }
 
+func (u *UseCase) GetPassengerSurvey(sameAs string) (master.PassengerSurveyMaster, error) {
+	var row master.PassengerSurveyMaster
+	err := u.db.Preload("Operator").
+		Preload("Railways").
+		Preload("Railways.Railway").
+		Preload("Stations").
+		Preload("Stations.Station").
+		Preload("Objects").
+		Where(&master.PassengerSurveyMaster{Base: master.Base{SameAs: sameAs}}).
+		First(&row).
+		Error
+	return row, err
+}
+
 func (u *UseCase) GetStationTimetable(sameAs string) (master.StationTimetableMaster, error) {
 	var row master.StationTimetableMaster
 	err := u.db.Preload("Objects").Where(&master.StationTimetableMaster{Base: master.Base{SameAs: sameAs}}).First(&row).Error

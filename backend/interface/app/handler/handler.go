@@ -5,7 +5,7 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/yuki-toida/refodpt/backend/infrastructure/repository"
-	"github.com/yuki-toida/refodpt/backend/usecase/cache"
+	"github.com/yuki-toida/refodpt/backend/usecase/route"
 )
 
 type Handler struct {
@@ -26,7 +26,17 @@ func handle(c *gin.Context, data interface{}, err error) {
 	c.JSON(http.StatusOK, res)
 }
 
-func (h *Handler) GetRailways(c *gin.Context) {
-	data := cache.NewUseCase(h.r.Cache).GetRailways()
+func (h *Handler) GetConnectingStations(c *gin.Context) {
+	data := route.NewUseCase(h.r).GetConnectingStations()
 	handle(c, data, nil)
+}
+
+func (h *Handler) GetRoutes(c *gin.Context) {
+	params := &struct{ From, To string }{}
+	if err := c.BindJSON(params); err != nil {
+		handle(c, nil, err)
+	} else {
+		data, err := route.NewUseCase(h.r).GetRoutes(params.From, params.To)
+		handle(c, data, err)
+	}
 }
