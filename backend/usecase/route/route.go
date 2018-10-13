@@ -2,6 +2,7 @@ package route
 
 import (
 	"errors"
+	"fmt"
 	"sort"
 
 	"github.com/jinzhu/gorm"
@@ -25,7 +26,7 @@ func NewUseCase(r *repository.Repository) *UseCase {
 func (u *UseCase) GetConnectingStations() []master.StationMaster {
 	var stations []master.StationMaster
 	for _, v := range u.cuc.GetStations() {
-		if 0 < len(v.ConnectingRailways) {
+		if verify(v) {
 			stations = append(stations, v)
 		}
 	}
@@ -44,69 +45,180 @@ func (u *UseCase) GetRoutes(fromStation, toStation string) (interface{}, error) 
 	if err != nil {
 		return nil, errors.New("到着駅名が存在しません")
 	}
-	fare, err := u.cuc.GetRailwayFare(from.SameAs, to.SameAs)
-	if err != nil {
-		return nil, errors.New("運賃を取得できませんでした")
+
+	g := NewGraph()
+	for _, v := range u.cuc.GetRailwayFares() {
+		sf, _ := u.cuc.GetStation(v.FromStationSameAs)
+		st, _ := u.cuc.GetStation(v.ToStationSameAs)
+		if verify(sf) && verify(st) {
+			g.Add(v.FromStationSameAs, v.ToStationSameAs, v.IcCardFare)
+		}
 	}
 
-	res := &struct{ From, To, Fare interface{} }{From: from, To: to, Fare: fare}
+	nodes, err := g.Route(from.SameAs, to.SameAs)
+	if err != nil {
+		return nil, err
+	}
+
+	res := make([]struct {
+		Name string
+		Cost int
+	}, len(nodes))
+
+	for i, node := range nodes {
+		res[i].Name = node.Name
+		res[i].Cost = node.Cost
+		fmt.Printf("%v: %v\n", node.Name, node.Cost)
+	}
+
 	return res, nil
+}
+
+func verify(s master.StationMaster) bool {
+	return s.OperatorSameAs == "odpt.Operator:TokyoMetro" && 0 < len(s.ConnectingRailways)
 }
 
 const NIL = -1
 
-type DirectedGraph struct {
-	nodes map[string]*Node
+type Graph struct {
+	Nodes map[string]*Node
 }
 
-func NewDirectedGraph() *DirectedGraph {
-	return &DirectedGraph{map[string]*Node{}}
+func NewGraph() *Graph {
+	return &Graph{map[string]*Node{}}
 }
 
 type Edge struct {
-	next *Node
-	cost int
+	Next *Node
+	Cost int
 }
 
 type Node struct {
-	name  string
-	edges []*Edge
-	done  bool
-	cost  int
-	prev  *Node
+	Name  string
+	Edges []*Edge
+	Done  bool
+	Cost  int
+	Prev  *Node
 }
 
 func NewNode(name string) *Node {
 	return &Node{
-		name:  name,
-		edges: []*Edge{},
-		done:  false,
-		cost:  NIL,
-		prev:  nil,
+		Name:  name,
+		Edges: []*Edge{},
+		Done:  false,
+		Cost:  NIL,
+		Prev:  nil,
 	}
 }
 
 func NewEdge(next *Node, cost int) *Edge {
-	return &Edge{next: next, cost: cost}
+	return &Edge{Next: next, Cost: cost}
 }
 
 func (n *Node) AddEdge(edge *Edge) {
-	n.edges = append(n.edges, edge)
+	n.Edges = append(n.Edges, edge)
 }
 
-func (dg *DirectedGraph) Add(from, to string, cost int) {
-	fromNode, ok := dg.nodes[from]
+func (g *Graph) Add(from, to string, cost int) {
+	fromNode, ok := g.Nodes[from]
 	if !ok {
 		fromNode = NewNode(from)
-		dg.nodes[from] = fromNode
+		g.Nodes[from] = fromNode
 	}
 
-	toNode, ok := dg.nodes[to]
+	toNode, ok := g.Nodes[to]
 	if !ok {
 		toNode = NewNode(to)
-		dg.nodes[to] = toNode
+		g.Nodes[to] = toNode
 	}
 
 	edge := NewEdge(toNode, cost)
 	fromNode.AddEdge(edge)
+}
+
+func (g *Graph) Route(start string, goal string) (ret []*Node, err error) {
+	// 名前からスタート地点のノードを取得する
+	startNode := g.Nodes[start]
+
+	// スタートのコストを 0 に設定することで処理対象にする
+	startNode.Cost = 0
+
+	for {
+		// 次の処理対象のノードを取得する
+		node, err := g.nextNode()
+
+		// 次に処理するノードが見つからなければ終了
+		if err != nil {
+			return nil, errors.New("Goal not found")
+		}
+
+		// ゴールまで到達した
+		if node.Name == goal {
+			break
+		}
+
+		// 取得したノードを処理する
+		g.calc(node)
+	}
+
+	// ゴールから逆順にスタートまでノードをたどっていく
+	n := g.Nodes[goal]
+	for {
+		ret = append(ret, n)
+		if n.Name == start {
+			break
+		}
+		n = n.Prev
+	}
+
+	return ret, nil
+}
+
+func (g *Graph) calc(node *Node) {
+	// ノードにつながっているエッジを取得する
+	for _, edge := range node.Edges {
+		nextNode := edge.Next
+
+		// 既に処理済みのノードならスキップする
+		if nextNode.Done {
+			continue
+		}
+
+		// このノードに到達するのに必要なコストを計算する
+		cost := node.Cost + edge.Cost
+		if nextNode.Cost == NIL || cost < nextNode.Cost {
+			// 既に見つかっている経路よりもコストが小さければ処理中のノードを遷移元として記録する
+			nextNode.Cost = cost
+			nextNode.Prev = node
+		}
+	}
+
+	// つながっているノードのコスト計算がおわったらこのノードは処理済みをマークする
+	node.Done = true
+}
+
+func (g *Graph) nextNode() (next *Node, err error) {
+	for _, node := range g.Nodes {
+		// 処理済みのノードは対象外
+		if node.Done {
+			continue
+		}
+		// コストが初期値 (-1) になっているノードはまだそのノードまでの最短経路が判明していないので処理できない
+		if node.Cost == -1 {
+			continue
+		}
+		// 最初に見つかったものは問答無用で次の処理対象の候補になる
+		if next == nil {
+			next = node
+		}
+		// 既に見つかったノードよりもコストの小さいものがあればそちらを先に処理しなければいけない
+		if next.Cost > node.Cost {
+			next = node
+		}
+	}
+	// 次の処理対象となるノードが見つからなかったときはエラー
+	if next == nil {
+		return nil, errors.New("Untreated node not found")
+	}
+	return
 }
