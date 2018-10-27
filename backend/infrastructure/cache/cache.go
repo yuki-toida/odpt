@@ -68,6 +68,7 @@ func (c *Cache) Init(db *gorm.DB) {
 		Preload("Railway").
 		Preload("ConnectingRailways").
 		Preload("ConnectingRailways.Railway").
+		Preload("ConnectingRailways.Railway.StationOrders").
 		Preload("PassengerSurveys").
 		Preload("Timetables").
 		Find(&stations)
